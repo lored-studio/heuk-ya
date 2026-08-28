@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="_ds/nocturne-bc4706f6-c94a-47b7-99c0-2729fa95ad54/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Dancing+Script:wght@500&display=swap">
+  <link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+  <script src="_ds/nocturne-bc4706f6-c94a-47b7-99c0-2729fa95ad54/_ds_bundle.js"></script>
+  <script src="image-slot.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: "Noto Serif KR", serif; }
+    h1, h2, h3, h4, h5, h6, .btn, .tag, button, summary { font-family: "Noto Serif KR", serif; }
+    a { color: var(--color-accent-300); }
+    a:hover { color: var(--color-accent-200); }
+    summary::-webkit-details-marker { display: none; }
+    summary { list-style: none; }
+    details > summary span[data-more]::after { content: "\2304"; display: inline-block; font-size: 15px; line-height: 1; transform: translateY(-2px); transition: transform .2s ease; }
+    details[open] > summary span[data-more]::after { transform: translateY(3px) rotate(180deg); }
+    details, .tag, .btn, .card { border-radius: 0 !important; }
+    html, body, * { scrollbar-width: none; -ms-overflow-style: none; }
+    ::-webkit-scrollbar { display: none; width: 0; height: 0; }
+    @media (min-width: 900px) {
+      .mq-desk { display: flex !important; }
+      .mq-mob { display: none !important; }
+      .shell { max-width: 1140px !important; }
+      .px { padding-left: 48px !important; padding-right: 48px !important; }
+      .rail { padding-left: 48px !important; scroll-padding-left: 48px !important; }
+      .hero { display: grid; grid-template-columns: 1.05fr 1fr; gap: 44px; align-items: center; padding: 20px 48px 0; }
+      .hero-img { order: 2; }
+      .hero-text { margin-top: 0 !important; padding: 28px 0 44px !important; }
+      .hero-fade { background: linear-gradient(90deg, var(--color-bg), transparent 34%), linear-gradient(180deg, transparent 58%, var(--color-bg) 100%) !important; }
+      .grid-subs { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important; }
+      .rel-cols { display: grid; grid-template-columns: minmax(0, 600px) minmax(280px, 1fr); gap: 28px; align-items: start; }
+      .lg-cell { height: 140px !important; }
+      .lg-cell img { max-height: 140px !important; }
+      .lg-sym { height: 88px !important; }
+      .lg-type { height: 104px !important; }
+      .lg-sagum { height: 48px !important; }
+    }
+  </style>
+</helmet>
+<div style="min-height:100vh;background:var(--color-bg)">
+<div class="shell" style="max-width:430px;margin:0 auto;position:relative">
+
+  <sc-if value="{{ placeOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;inset:0;z-index:110;background:var(--color-bg);display:flex;flex-direction:column">
+      <div style="flex:1;position:relative;min-height:0">
+        <sc-if value="{{ placeHi }}" hint-placeholder-val="{{ false }}">
+          <div role="img" aria-label="{{ placeName }}" style="{{ placeHiStyle }}"></div>
+        </sc-if>
+        <sc-if value="{{ placeNoHi }}" hint-placeholder-val="{{ false }}">
+          <image-slot id="{{ placeImgId }}" shape="rect" placeholder="{{ placePh }}"></image-slot>
+        </sc-if>
+        <div style="position:absolute;left:0;right:0;top:0;height:76px;background:linear-gradient(180deg, rgba(22,24,38,.85), transparent);pointer-events:none"></div>
+        <div style="position:absolute;top:14px;left:18px;right:60px;font-size:17px;font-weight:600;color:var(--color-neutral-100)">{{ placeName }}</div>
+        <button onClick="{{ closePlace }}" aria-label="닫기" style="position:absolute;top:10px;right:12px;background:rgba(22,24,38,.6);border:1px solid var(--color-neutral-700);color:var(--color-neutral-200);font-size:17px;line-height:1;padding:8px 10px;cursor:pointer;display:flex"><i class="ph ph-x"></i></button>
+      </div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ toastVisible }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:120;background:var(--color-neutral-900);border:1px solid var(--color-accent-700);color:var(--color-neutral-100);font-size:13px;padding:11px 18px;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-md);white-space:nowrap"><i class="ph ph-check-circle" style="color:var(--color-accent-300);font-size:16px"></i>유저노트가 복사되었습니다.</div>
+  </sc-if>
+  <sc-if value="{{ showPageArrow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:0;left:0;right:0;height:52px;z-index:80;background:linear-gradient(180deg, transparent, rgba(22,24,38,.92));pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px;color:var(--color-neutral-300);font-size:18px;line-height:1">⌄</div>
+  </sc-if>
+  <nav class="px" style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;padding:11px 16px;background:color-mix(in srgb, var(--color-bg) 88%, transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--color-divider)">
+    <a onClick="{{ goHome }}" style="text-decoration:none;color:var(--color-text);font-weight:600;font-size:15px;letter-spacing:.14em;cursor:pointer">黑夜<span style="color:var(--color-accent);font-weight:500;margin-left:6px;font-size:11px;letter-spacing:.06em">흑야</span></a>
+    <div class="mq-desk" style="display:none;align-items:center;gap:4px">
+      <sc-for list="{{ navItems }}" as="ni" hint-placeholder-count="6">
+        <a onClick="{{ ni.go }}" style="{{ ni.desk }}" style-hover="{ color: 'var(--color-accent-200)' }">{{ ni.label }}</a>
+      </sc-for>
+    </div>
+    <button class="mq-mob" onClick="{{ toggleMenu }}" aria-label="메뉴" style="background:none;border:none;color:var(--color-neutral-300);font-size:21px;line-height:1;padding:4px;cursor:pointer;display:flex"><i class="ph ph-list"></i></button>
+  </nav>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeMenu }}" style="position:fixed;inset:0;z-index:90;background:rgba(10,11,20,.6);backdrop-filter:blur(3px)">
+      <div onClick="{{ stop }}" style="position:absolute;top:0;right:0;bottom:0;width:230px;background:var(--color-surface);border-left:1px solid var(--color-neutral-800);padding:18px 0;display:flex;flex-direction:column">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:0 18px 14px;border-bottom:1px solid var(--color-neutral-800)">
+          <span style="font-size:13px;letter-spacing:.14em;color:var(--color-neutral-400)">메뉴</span>
+          <button onClick="{{ closeMenu }}" aria-label="닫기" style="background:none;border:none;color:var(--color-neutral-400);font-size:16px;padding:4px;cursor:pointer;display:flex"><i class="ph ph-x"></i></button>
+        </div>
+        <div style="display:flex;flex-direction:column;padding-top:8px">
+          <a onClick="{{ goHomeMenu }}" style="{{ homeMenuStyle }}"><i class="ph ph-house" style="font-size:17px"></i>홈</a>
+          <sc-for list="{{ navItems }}" as="ni" hint-placeholder-count="6">
+            <a onClick="{{ ni.goMenu }}" style="{{ ni.menuStyle }}"><i class="{{ ni.icon }}" style="font-size:17px"></i>{{ ni.label }}</a>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ pageHome }}" hint-placeholder-val="{{ true }}">
+  <header id="top" class="hero" style="position:relative">
+    <div class="hero-img" style="position:relative;width:100%;aspect-ratio:4/3">
+      <image-slot id="place-tower-exterior" shape="rect" placeholder="흑영타워 야경 (4:3) — assets/places/tower-exterior.png" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+      <div class="hero-fade" style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg, rgba(22,24,38,0) 42%, rgba(22,24,38,.55) 72%, var(--color-bg) 100%)"></div>
+    </div>
+    <div class="hero-text" style="position:relative;margin-top:-56px;padding:0 20px 8px">
+      <img src="assets/logos/symbol-heukyahoe.png" alt="흑야회 문장" style="width:48px;height:48px;filter:invert(1);mix-blend-mode:screen;opacity:.9;margin-bottom:12px">
+      <h1 style="font-size:clamp(52px, 5.5vw, 72px);margin:0;letter-spacing:.04em;line-height:1">黑夜</h1>
+      <div style="font-size:15px;color:var(--color-neutral-400);margin:8px 0 6px;letter-spacing:.3em">흑 야 — 검 은 밤</div>
+      <div style="font-family:'Dancing Script',cursive;font-size:15px;color:var(--color-neutral-500);margin:0 0 20px">by Lored Studio</div>
+      <div style="width:28px;height:2px;background:var(--color-accent);margin-bottom:12px"></div>
+      <p style="font-size:19px;line-height:1.5;font-weight:500;color:var(--color-neutral-200);margin:0 0 6px;text-wrap:pretty">"범 잡으려고 놓은 덫에,<br>웬 토끼가 한 마리 걸려들었네."</p>
+      <p style="font-size:13px;color:var(--color-neutral-500);margin:0 0 22px">흑영그룹 총수, 흑야회 보스 서태건의 덫에 걸린 순간부터 당신의 평범한 삶은 끝이 났다.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding-bottom:40px">
+        <sc-for list="{{ navItems }}" as="ni" hint-placeholder-count="6">
+          <button class="btn btn-primary" onClick="{{ ni.go }}" style="padding:15px 6px;font-size:13.5px;justify-content:center;width:100%;white-space:nowrap;display:flex;align-items:center;gap:6px"><i class="{{ ni.icon }}" style="font-size:16px"></i>{{ ni.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+  </header>
+  </sc-if>
+
+  <sc-if value="{{ pageStory }}" hint-placeholder-val="{{ false }}">
+  <section id="story" class="px" style="padding:24px 20px 10px;max-width:768px">
+    <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--color-accent)">01 · STORY</div>
+    <h2 style="font-size:27px;margin:6px 0 4px">서사</h2>
+    <p style="font-size:13px;color:var(--color-neutral-500);margin:0 0 6px">안개 같은 도시 서울. 재계 서열 12위 '흑영그룹'의 유리 타워 아래에는 전국구 조직 '흑야회'의 뿌리가 묻혀 있다.</p>
+    <div style="height:1px;background:linear-gradient(90deg, var(--color-neutral-700), transparent);margin:18px 0 24px"></div>
+
+    <div style="display:flex;flex-direction:column;gap:18px;font-size:16.5px;line-height:1.8;color:var(--color-neutral-200);text-wrap:pretty;padding:4px 0 12px">
+      <p style="margin:0">전국구 조폭 '흑야회'의 보스, 서태건.</p>
+      <p style="margin:0">그는 부하들에게 '사검파'의 주요 인물을 납치해오라고 명령했다.</p>
+      <p style="margin:0">그런데 부하들이 실수로 <strong style="color:var(--color-neutral-100);font-weight:600">당신</strong>을 납치해왔다.</p>
+      <p style="margin:0">예상과 다른 결과물에 서태건은 황당했지만 —</p>
+      <p style="margin:0">보다보니 겁먹고 오들오들 떠는 당신이 토끼 같고 재밌어서, 당신을 거두어보기로 한다.</p>
+    </div>
+
+    <h6 style="color:var(--color-neutral-500);margin:20px 0 4px">더 깊은 이야기</h6>
+
+    <details style="border:1px solid var(--color-neutral-800);border-radius:0;margin-top:10px;background:var(--color-neutral-900)">
+      <summary style="padding:13px 16px;font-size:13.5px;font-weight:600;color:var(--color-neutral-300);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px"><span>당신이 납치된 밤</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--color-accent);letter-spacing:.12em" data-more=""></span></summary>
+      <div style="padding:14px 16px 16px;border-top:1px solid var(--color-neutral-800)">
+    <div style="display:flex;gap:14px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-accent)">00</span><div style="flex:1;width:1px;background:linear-gradient(180deg, var(--color-neutral-700), var(--color-neutral-800))"></div></div>
+      <div style="padding-bottom:20px"><div style="font-size:15px;font-weight:600;margin-bottom:3px">사냥 준비</div><p style="font-size:13.5px;color:var(--color-neutral-400);margin:0">흑야회는 사검파가 운영 중인 '사검항만'을 빼앗기 위해 작전을 세운다.</p></div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-accent)">01</span><div style="flex:1;width:1px;background:var(--color-neutral-800)"></div></div>
+      <div style="padding-bottom:20px"><div style="font-size:15px;font-weight:600;margin-bottom:3px">거래 제안</div><p style="font-size:13.5px;color:var(--color-neutral-400);margin:0">사냥 작전의 일환으로서 흑야회는 사검파에 거래를 제안한다.</p></div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-accent)">02</span><div style="flex:1;width:1px;background:var(--color-neutral-800)"></div></div>
+      <div style="padding-bottom:20px"><div style="font-size:15px;font-weight:600;margin-bottom:3px">거래 조건</div><p style="font-size:13.5px;color:var(--color-neutral-400);margin:0">인천항 부두에서 흑야회의 주요 인물과 사검파의 주요 인물이 직접 나와서 거래할 것을 조건으로 제시한다.</p></div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-accent)">03</span><div style="flex:1;width:1px;background:var(--color-neutral-800)"></div></div>
+      <div style="padding-bottom:20px"><div style="font-size:15px;font-weight:600;margin-bottom:3px">불출석</div><p style="font-size:13.5px;color:var(--color-neutral-400);margin:0">사검파는 흑야회가 말한 거래에 응하겠다고 답한다. 하지만 말과 다르게 약속 장소에는 나타나지 않는다.</p></div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-accent)">04</span><div style="flex:1;width:1px;background:var(--color-neutral-800)"></div></div>
+      <div style="padding-bottom:20px"><div style="font-size:15px;font-weight:600;margin-bottom:3px">희생양</div><p style="font-size:13.5px;color:var(--color-neutral-400);margin:0">흑야회가 나타나지 않은 그 자리에 나타난 한 사람이 있었으니, 그것이 바로 당신이다.</p></div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-accent)">05</span><div style="flex:1;width:1px;background:var(--color-neutral-800)"></div></div>
+      <div style="padding-bottom:20px"><div style="font-size:15px;font-weight:600;margin-bottom:3px">납치</div><p style="font-size:13.5px;color:var(--color-neutral-400);margin:0">약속 장소에 아무도 나타나지 않아 불안해하던 흑야회 현장팀은, 마침내 사람이 나타나자 빠르게 납치해 보스 앞으로 데려간다.</p></div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-accent)">06</span><div style="flex:1;width:1px;background:var(--color-neutral-800)"></div></div>
+      <div style="padding-bottom:20px"><div style="font-size:15px;font-weight:600;margin-bottom:3px">헛웃음</div><p style="font-size:13.5px;color:var(--color-neutral-400);margin:0 0 10px">하지만 납치해 온 당신의 모습은, 사검파의 주요 인물이라고 하기엔 너무 여리고 작다.</p>
+      <p style="font-size:13.5px;color:var(--color-neutral-400);margin:0 0 10px">그를 보며 서태건은 헛웃음을 웃는다.</p>
+      <p style="font-size:17px;font-weight:500;color:var(--color-neutral-100);margin:0;text-wrap:pretty">"범 잡으려고 놓은 덫에,<br>웬 토끼가 한 마리 걸려들었네."</p></div>
+    </div>
+    <div style="display:flex;gap:14px">
+      <div style="display:flex;flex-direction:column;align-items:center;flex:none;width:22px"><span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:var(--color-accent)">07</span></div>
+      <div style="padding-bottom:8px"><div style="font-size:15px;font-weight:600;margin-bottom:3px">거두어 들임</div><p style="font-size:13.5px;color:var(--color-neutral-400);margin:0">서태건은 당신이 가지고 놀기에 재미있어 보이기도 하고, <em style="color:var(--color-neutral-300)">'보기에는 여려 보이지만 사실 사검파와 연관이 있는데 연기 중일지도 모른다.'</em>는 계산 아래 당신을 한남동 저택으로 데려간다.</p></div>
+    </div>
+
+      </div>
+    </details>
+
+    <details style="border:1px solid var(--color-neutral-800);border-radius:0;margin-top:10px;background:var(--color-neutral-900)">
+      <summary style="padding:13px 16px;font-size:13.5px;font-weight:600;color:var(--color-neutral-300);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px"><span>흑야회가 놓은 이중 덫</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--color-accent);letter-spacing:.12em" data-more=""></span></summary>
+        <div style="padding:14px 16px 18px;border-top:1px solid var(--color-neutral-800)">
+          <h6 style="color:var(--color-neutral-500);margin:0 0 10px">흑야회가 납치 계획을 세운 이유</h6>
+          <div style="border:1px solid var(--color-neutral-700);margin-bottom:16px">
+            <div style="padding:7px 13px;background:var(--color-neutral-800);font-size:11.5px;font-weight:600;color:var(--color-neutral-200);letter-spacing:.04em">제1안</div>
+            <div style="padding:13px;display:flex;flex-direction:column;gap:6px">
+              <div style="background:var(--color-bg);border:1px solid var(--color-neutral-800);padding:11px 13px">
+                <div style="font-size:11px;font-weight:600;color:var(--color-neutral-500);margin-bottom:3px">조건</div>
+                <div style="font-size:12.5px;color:var(--color-neutral-300);line-height:1.55">사검파 조직원을 납치·협박했다는 사실에 분노해 사검파가 쳐들어올 경우</div>
+              </div>
+              <div style="display:flex;justify-content:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+              <div style="background:var(--color-bg);border:1px solid color-mix(in srgb, var(--color-accent) 35%, var(--color-neutral-800));padding:11px 13px">
+                <div style="font-size:11px;font-weight:600;color:var(--color-accent-300);margin-bottom:3px">노림수</div>
+                <div style="font-size:12.5px;color:var(--color-neutral-300);line-height:1.55">무력으로 정면 충돌 시 흑야회가 사검파를 이길 수 있기에, 전쟁 승리를 통해 사검파를 정복·흡수</div>
+              </div>
+            </div>
+          </div>
+          <div style="border:1px solid var(--color-neutral-700);margin-bottom:14px">
+            <div style="padding:7px 13px;background:var(--color-neutral-800);font-size:11.5px;font-weight:600;color:var(--color-neutral-200);letter-spacing:.04em">제2안</div>
+            <div style="padding:13px;display:flex;flex-direction:column;gap:6px">
+              <div style="background:var(--color-bg);border:1px solid var(--color-neutral-800);padding:11px 13px">
+                <div style="font-size:11px;font-weight:600;color:var(--color-neutral-500);margin-bottom:3px">조건</div>
+                <div style="font-size:12.5px;color:var(--color-neutral-300);line-height:1.55">사검파가 반응하지 않을 경우</div>
+              </div>
+              <div style="display:flex;justify-content:center;color:var(--color-accent);font-size:16px;line-height:1">↓</div>
+              <div style="background:var(--color-bg);border:1px solid color-mix(in srgb, var(--color-accent) 35%, var(--color-neutral-800));padding:11px 13px">
+                <div style="font-size:11px;font-weight:600;color:var(--color-accent-300);margin-bottom:3px">노림수</div>
+                <div style="font-size:12.5px;color:var(--color-neutral-300);line-height:1.55">해당 인원을 회유하여 사검파에 대한 주요 정보를 얻어 사검파를 무너뜨림</div>
+              </div>
+            </div>
+          </div>
+          <p style="font-size:12.5px;color:var(--color-neutral-500);margin:0;border-top:1px solid var(--color-neutral-800);padding-top:12px">그런데 아무것도 모르는 당신을 납치하는 바람에, 사검파에게 속셈만 들키고 아무것도 얻지 못하게 되었다.</p>
+        </div>
+    </details>
+
+    <details style="border:1px solid var(--color-neutral-800);border-radius:0;margin-top:10px;background:var(--color-neutral-900)">
+      <summary style="padding:13px 16px;font-size:13.5px;font-weight:600;color:var(--color-neutral-300);cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px"><span>부패 경찰 vs 잠입 작전 '등대'</span><span style="font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--color-accent);letter-spacing:.12em" data-more=""></span></summary>
+      <div style="padding:14px 16px 16px;border-top:1px solid var(--color-neutral-800)">
+        <div style="border:1px solid var(--color-neutral-700);margin-bottom:12px">
+          <div style="padding:7px 13px;background:var(--color-neutral-800);font-size:11.5px;font-weight:600;color:oklch(0.82 0.1 85);letter-spacing:.04em">부패 경찰</div>
+          <ul style="margin:0;padding:12px 13px 13px 28px;font-size:12.5px;line-height:1.6;color:var(--color-neutral-400);display:flex;flex-direction:column;gap:4px">
+            <li>흑야회로부터 매달 거액의 '자문료'를 받는다.</li>
+            <li>경찰 내부 정보를 흑야회에 흘려 수사망을 빠져나가도록 도움</li>
+            <li>흑야회 소행의 범죄를 빠르게 덮음</li>
+            <li>대표 인물: <strong style="color:var(--color-neutral-200)">서울경찰청 광역수사단 계장 오갑수(경정)</strong></li>
+          </ul>
+        </div>
+        <div style="border:1px solid var(--color-neutral-700);margin-bottom:12px">
+          <div style="padding:7px 13px;background:var(--color-neutral-800);font-size:11.5px;font-weight:600;color:var(--color-neutral-200);letter-spacing:.04em">인천항 하역부 사망 사건</div>
+          <ul style="margin:0;padding:12px 13px 13px 28px;font-size:12.5px;line-height:1.6;color:var(--color-neutral-400);display:flex;flex-direction:column;gap:4px">
+            <li>흑영캐피탈에 진 가족의 빚을 갚기 위해 인천항에서 일하던 하역부가 사망한 사건</li>
+            <li>살인의 증거가 발견되었지만 사고사로 빠르게 마무리 됨</li>
+          </ul>
+        </div>
+        <div style="border:1px solid var(--color-neutral-700)">
+          <div style="padding:7px 13px;background:var(--color-neutral-800);font-size:11.5px;font-weight:600;color:var(--color-accent-200);letter-spacing:.04em">잠입 작전 '등대'</div>
+          <ul style="margin:0;padding:12px 13px 13px 28px;font-size:12.5px;line-height:1.6;color:var(--color-neutral-400);display:flex;flex-direction:column;gap:4px">
+            <li>흑야회와 관련된 사건들이 흑야회에 유리하게 처리되는 모습들을 수상히 여긴 검찰, 경찰 등장</li>
+            <li>일부가 비밀리에 흑야회 잠입 작전 실시</li>
+            <li>주요 인물: <strong style="color:var(--color-neutral-200)">강재경(=김준서), 국중필, 차이헌</strong></li>
+          </ul>
+        </div>
+      </div>
+    </details>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ pagePower }}" hint-placeholder-val="{{ false }}">
+  <section id="power" class="px" style="padding:24px 20px 10px;max-width:828px">
+    <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--color-accent)">02 · POWER</div>
+    <h2 style="font-size:27px;margin:6px 0 4px">권력 구도</h2>
+    <p style="font-size:13px;color:var(--color-neutral-500);margin:0 0 6px">흑야회, 사검파, 공권력 — 세계관 3축.</p>
+    <div style="height:1px;background:linear-gradient(90deg, var(--color-neutral-700), transparent);margin:18px 0 20px"></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <details style="background:var(--color-bg);border:1px solid var(--color-neutral-800);border-radius:0">
+        <summary style="padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:11px"><img src="assets/logos/symbol-heukyahoe.png" alt="흑야회 문장" style="width:34px;height:34px;flex:none;filter:invert(1);mix-blend-mode:screen;opacity:.92"><span style="flex:1"><span style="display:block;font-size:15px;font-weight:600">흑야회</span><span style="display:block;font-size:11.5px;color:var(--color-neutral-500);margin-top:1px">부산 영도에서 전국구가 된 폭력 조직 — 기업화된 몸통이 흑영그룹</span></span><span style="flex:none;font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--color-accent);letter-spacing:.12em" data-more=""></span></summary>
+        <div style="padding:4px 16px 16px;border-top:1px solid var(--color-neutral-800)">
+        <div style="height:10px"></div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:2px;background:var(--color-neutral-900);border-radius:0;padding:14px 12px;margin-bottom:14px">
+          <img class="lg-sym" src="assets/logos/symbol-heukyoung.png" alt="흑영그룹 심볼" style="height:44px;filter:invert(1);mix-blend-mode:screen;opacity:.92">
+          <img class="lg-type" src="assets/logos/logotype-heukyoung.png" alt="흑영그룹 로고타입" style="height:52px;filter:invert(1);mix-blend-mode:screen;opacity:.92">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-neutral-100)">12위</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">재계 서열</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-neutral-100)">41조</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">자산총액(약)</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-neutral-100)">7.5조</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">홀딩스 시총(약)</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-neutral-100)">21조</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">상장사 합산 시총</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-neutral-100)">2.8만</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">임직원(명)</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-accent-300)">1,024</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">흑야회 '식구'(명)</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--color-neutral-500);margin-bottom:7px">계열사 — 그룹 연결 매출 약 15조 원</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px">
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/heukyoung-holdings.png" alt="흑영 홀딩스" class="lighten" style="max-height:60px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">흑영 홀딩스</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 지주회사</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: — (그룹 지배)</div>
+          </div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/heukyoung-capital.png" alt="흑영캐피탈" class="lighten" style="max-height:60px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">흑영캐피탈</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 대부·여신</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: 약 4.2조 원</div>
+          </div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/suradoga.png" alt="수라도가" class="lighten" style="max-height:60px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">수라도가</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 주류</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: 약 3.1조 원</div>
+          </div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/heukyoung-palace.png" alt="흑영 팰리스" class="lighten" style="max-height:60px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">흑영 팰리스</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 호텔·리조트</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: 약 2.8조 원</div>
+          </div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/seven-pot.png" alt="세븐포트" class="lighten" style="max-height:60px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">세븐포트</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 카지노 (외국인 전용)</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: 약 1.9조 원</div>
+          </div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/maison-heukyoung.png" alt="메종 흑영" class="lighten" style="max-height:60px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">메종 흑영</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 패션</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: 약 1.6조 원</div>
+          </div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px;grid-column:span 2">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/yayeon.png" alt="주식회사 야연" class="lighten" style="max-height:60px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">주식회사 야연</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 유흥·엔터테인먼트 — B1·F1 운영</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: 약 0.9조 원</div>
+          </div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/b1.png" alt="B1" style="max-height:56px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">B1</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 회원제 호스티스바 (청담 지하 · 야연 산하)</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: 야연에 포함</div>
+          </div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:10px 10px 11px">
+            <div class="lg-cell" style="height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:8px"><img src="assets/logos/f1.png" alt="F1" style="max-height:56px;max-width:100%"></div>
+            <div style="font-size:12.5px;font-weight:600;color:var(--color-neutral-100)">F1</div>
+            <div style="font-size:10.5px;color:var(--color-neutral-500);margin-top:2px">산업군: 회원제 호스트바 (청담 지상 · 야연 산하)</div>
+            <div style="font-size:10.5px;color:var(--color-accent-300);margin-top:1px">연매출: 야연에 포함</div>
+          </div>
+        </div>
+        <div style="font-size:10.5px;color:var(--color-neutral-600);margin-bottom:16px">이 외 부동산·물류 부문 연매출 약 0.5조 원.</div>
+        <h6 style="color:var(--color-neutral-500);margin:0 0 8px;border-top:1px solid var(--color-neutral-800);padding-top:12px">신파 대 구파 — 왕좌의 구도</h6>
+        <ul style="margin:0 0 12px;padding-left:16px;font-size:12.5px;line-height:1.6;color:var(--color-neutral-400);display:flex;flex-direction:column;gap:5px">
+          <li>서태건이 전대 회장 금옥천의 외아들 금이안을 실적으로 눌러 현 회장 자리에 오름</li>
+          <li>전대 회장 금옥천 사후, <strong style="color:var(--color-neutral-200)">신파(서태건)</strong> 대 <strong style="color:var(--color-neutral-200)">구파(금이안)</strong>로 분열</li>
+        </ul>
+        <table style="width:100%;border-collapse:collapse;font-size:11.5px;line-height:1.5;margin:0">
+          <thead>
+            <tr>
+              <th style="width:64px;padding:7px 8px;text-align:left;font-weight:500;color:var(--color-neutral-500);border-bottom:1px solid var(--color-neutral-700)"></th>
+              <th style="padding:7px 8px;text-align:left;font-weight:600;color:var(--color-accent-300);border-bottom:1px solid var(--color-neutral-700)">신파(新派)</th>
+              <th style="padding:7px 8px;text-align:left;font-weight:600;color:oklch(0.72 0.1 45);border-bottom:1px solid var(--color-neutral-700)">구파(舊派)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:7px 8px;color:var(--color-neutral-500);border-bottom:1px solid var(--color-neutral-800);vertical-align:top">중심 인물</td>
+              <td style="padding:7px 8px;color:var(--color-neutral-200);font-weight:600;border-bottom:1px solid var(--color-neutral-800);vertical-align:top">서태건</td>
+              <td style="padding:7px 8px;color:var(--color-neutral-200);font-weight:600;border-bottom:1px solid var(--color-neutral-800);vertical-align:top">금이안</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 8px;color:var(--color-neutral-500);border-bottom:1px solid var(--color-neutral-800);vertical-align:top">명목</td>
+              <td style="padding:7px 8px;color:var(--color-neutral-300);border-bottom:1px solid var(--color-neutral-800);vertical-align:top">압도적 실적과 리더십</td>
+              <td style="padding:7px 8px;color:var(--color-neutral-300);border-bottom:1px solid var(--color-neutral-800);vertical-align:top">흑야회 설립자 겸 전 보스의 아들</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 8px;color:var(--color-neutral-500);border-bottom:1px solid var(--color-neutral-800);vertical-align:top">현황</td>
+              <td style="padding:7px 8px;color:var(--color-neutral-300);border-bottom:1px solid var(--color-neutral-800);vertical-align:top">흑야회 대부분의 세력을 장악하고 흑영그룹 총수 겸 흑야회 보스의 역할 수행 중</td>
+              <td style="padding:7px 8px;color:var(--color-neutral-300);border-bottom:1px solid var(--color-neutral-800);vertical-align:top">권력 싸움에서 밀려나 계열사 세븐포트 카지노 대표로 지내며 계속 서태건을 무너뜨릴 틈을 노리는 중</td>
+            </tr>
+            <tr>
+              <td style="padding:7px 8px;color:var(--color-neutral-500);vertical-align:top">진영</td>
+              <td style="padding:7px 8px;color:var(--color-neutral-300);vertical-align:top">흑영 홀딩스</td>
+              <td style="padding:7px 8px;color:var(--color-neutral-300);vertical-align:top">세븐포트 카지노</td>
+            </tr>
+          </tbody>
+        </table>
+        </div>
+      </details>
+      <details style="background:var(--color-bg);border:1px solid var(--color-neutral-800);border-radius:0">
+        <summary style="padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:11px"><img src="assets/logos/symbol-sagum.png" alt="사검파 문장" style="width:34px;height:34px;flex:none;filter:invert(1);mix-blend-mode:screen;opacity:.92"><span style="flex:1"><span style="display:block;font-size:15px;font-weight:600">사검파</span><span style="display:block;font-size:11.5px;color:var(--color-neutral-500);margin-top:1px">인천항을 쥔 라이벌 — 표면 조직은 항만 물류사 사검항운</span></span><span style="flex:none;font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--color-accent);letter-spacing:.12em" data-more=""></span></summary>
+        <div style="padding:14px 16px 16px;border-top:1px solid var(--color-neutral-800)">
+        <ul style="margin:0 0 14px;padding-left:16px;font-size:12.5px;line-height:1.6;color:var(--color-neutral-400);display:flex;flex-direction:column;gap:5px">
+          <li>수도권 서부 밀수·장물·뒷돈 유통의 실핏줄을 전부 장악</li>
+          <li>흑야회의 밀수 컨테이너는 사검파의 부두를 지나야 하고, 사검파의 물건은 흑야회의 유통망 없이는 돈이 되지 않는다 — <strong style="color:var(--color-neutral-200)">서로의 목줄을 한 손씩</strong></li>
+          <li>표면 조직은 항만 하역·물류사 <strong style="color:var(--color-neutral-200)">사검항운</strong> — 부두 노무 · 창고업 · 통관 브로커리지. 비상장(지분 전량 사혁·특수관계인) — <strong style="color:var(--color-neutral-200)">비상장 자체가 조직의 보호막</strong></li>
+        </ul>
+        <div style="display:flex;align-items:center;justify-content:center;background:var(--color-neutral-900);border-radius:0;padding:14px 12px;margin-bottom:14px">
+          <img class="lg-sagum" src="assets/logos/logotype-sagum.png" alt="사검항운 로고" style="height:22px;filter:invert(1) hue-rotate(180deg);mix-blend-mode:screen">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px">
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-neutral-100)">4,500억</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">연 매출(약)</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-neutral-100)">1,500</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">정규 임직원(명)</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:var(--color-neutral-100)">2,000</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">상시 일용 노무(명)</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px"><div style="font-size:14.5px;font-weight:600;color:oklch(0.72 0.1 45)">300</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:1px">행동 인원 — 흑야회의 ⅓</div></div>
+          <div style="background:var(--color-neutral-900);border-radius:0;padding:8px 9px;grid-column:span 2"><div style="font-size:12px;font-weight:600;color:var(--color-neutral-200);margin-top:2px">'통행세'는 장부 외 별도</div><div style="font-size:10px;color:var(--color-neutral-500);margin-top:2px">영업이익률은 업계 평균 상회</div></div>
+        </div>
+        <div style="font-size:11px;color:var(--color-neutral-500);margin-bottom:7px">사검항운 부문별 연 매출 (억 원)</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="flex:none;width:78px;color:var(--color-neutral-400)">하역</span><div style="flex:1;height:8px;background:var(--color-neutral-800);border-radius:2px;overflow:hidden"><div style="width:100%;height:100%;background:oklch(0.58 0.1 45)"></div></div><span style="flex:none;width:38px;text-align:right;color:var(--color-neutral-200);font-weight:600">2,600</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="flex:none;width:78px;color:var(--color-neutral-400)">창고·보관</span><div style="flex:1;height:8px;background:var(--color-neutral-800);border-radius:2px;overflow:hidden"><div style="width:42%;height:100%;background:oklch(0.5 0.09 45)"></div></div><span style="flex:none;width:38px;text-align:right;color:var(--color-neutral-200);font-weight:600">1,100</span></div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px"><span style="flex:none;width:78px;color:var(--color-neutral-400)">통관·운송</span><div style="flex:1;height:8px;background:var(--color-neutral-800);border-radius:2px;overflow:hidden"><div style="width:31%;height:100%;background:oklch(0.44 0.08 45)"></div></div><span style="flex:none;width:38px;text-align:right;color:var(--color-neutral-200);font-weight:600">800</span></div>
+        </div>
+        </div>
+      </details>
+      <details style="background:var(--color-bg);border:1px solid var(--color-neutral-800);border-radius:0">
+        <summary style="padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:11px"><img src="assets/logos/symbol-police.png" alt="공권력 문장" style="width:34px;height:34px;flex:none;filter:invert(1);mix-blend-mode:screen;opacity:.92"><span style="flex:1"><span style="display:block;font-size:15px;font-weight:600">공권력</span><span style="display:block;font-size:11.5px;color:var(--color-neutral-500);margin-top:1px">법과 안개 — 수사하는 자, 매수된 자, 약점 잡힌 자</span></span><span style="flex:none;font-family:ui-monospace,Menlo,monospace;font-size:10px;color:var(--color-accent);letter-spacing:.12em" data-more=""></span></summary>
+        <div style="padding:14px 16px 16px;border-top:1px solid var(--color-neutral-800)">
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:9px 12px;font-size:12.5px;line-height:1.55;color:var(--color-neutral-400)">
+          <span style="font-weight:600;color:var(--color-neutral-200);white-space:nowrap">검찰</span><span>흑영그룹·사검항운의 불법 행위에 심증을 갖고 끈질기게 수사. 작전 '등대'의 파트너.</span>
+          <span style="font-weight:600;color:var(--color-neutral-200);white-space:nowrap">경찰</span><span>'인천항 하역부 사망 사건'이 사고사로 덮이자, 내부에 흑야회 편이 있다고 판단한 일부가 비밀리에 잠입 작전 <strong style="color:var(--color-neutral-200)">'등대'</strong>를 가동.</span>
+          <span style="font-weight:600;color:oklch(0.78 0.11 85);white-space:nowrap">부정 경찰</span><span>매달 '자문료' 명목의 현금 수수 — 흑야회가 법의 심판을 피하는 데 큰 공을 세우고 있다.</span>
+          <span style="font-weight:600;color:oklch(0.78 0.11 85);white-space:nowrap">부패 의원</span><span>B1·F1의 단골들. 접대 리스트가 들통나는 순간 끝 — 흑야회가 약점을 쥐고 있는 상황.</span>
+        </div>
+        </div>
+      </details>
+    </div>
+
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ pageChars }}" hint-placeholder-val="{{ false }}">
+  <section id="chars" class="px" style="padding:24px 20px 10px">
+    <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--color-accent)">03 · CHARACTERS</div>
+    <h2 style="font-size:27px;margin:6px 0 4px">인물</h2>
+    <p style="font-size:13px;color:var(--color-neutral-500);margin:0 0 6px">16인. 카드를 탭하면 상세를 볼 수 있습니다.</p>
+    <div style="height:1px;background:linear-gradient(90deg, var(--color-neutral-700), transparent);margin:18px 0 20px"></div>
+
+    <div style="display:flex;gap:6px;margin-bottom:18px;max-width:520px">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="4">
+        <button onClick="{{ t.onClick }}" style="{{ t.style }}"><span style="{{ t.iconStyle }}"></span><span>{{ t.label }}</span></button>
+      </sc-for>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:14px;margin-bottom:14px">
+      <sc-for list="{{ mains }}" as="c" hint-placeholder-count="2">
+        <div onClick="{{ c.onClick }}" style="{{ c.cardStyle }}">
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="{{ c.img }}" src="{{ c.src }}" shape="rect" placeholder="{{ c.ph }}"></image-slot></div>
+          <div style="padding:14px 16px 16px">
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:2px">
+              <span style="font-size:18px;font-weight:600">{{ c.name }}</span>
+              <sc-if value="{{ c.badge }}" hint-placeholder-val="{{ false }}"><span class="tag tag-accent" style="font-size:10px">{{ c.badge }}</span></sc-if>
+            </div>
+            <div style="font-size:12px;color:var(--color-neutral-500);margin-bottom:8px">{{ c.sub }}</div>
+            <p style="font-size:13.5px;color:var(--color-neutral-300);margin:0 0 8px;text-wrap:pretty">{{ c.line }}</p>
+            <p style="font-size:13px;color:var(--color-accent-300);margin:0">{{ c.q1 }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div class="grid-subs" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <sc-for list="{{ subs }}" as="c" hint-placeholder-count="2">
+        <div onClick="{{ c.onClick }}" style="{{ c.cardStyle }}">
+          <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="{{ c.img }}" src="{{ c.src }}" shape="rect" placeholder="{{ c.ph }}"></image-slot></div>
+          <div style="padding:10px 12px 12px">
+            <div style="font-size:14.5px;font-weight:600;margin-bottom:2px">{{ c.name }}</div>
+            <div style="font-size:11px;color:var(--color-neutral-500);line-height:1.4">{{ c.sub }}</div>
+            <sc-if value="{{ c.badge }}" hint-placeholder-val="{{ false }}"><div style="margin-top:7px"><span class="tag tag-accent" style="font-size:10px">{{ c.badge }}</span></div></sc-if>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeChar }}" style="position:fixed;inset:0;z-index:100;background:rgba(10,11,20,.78);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;padding:16px">
+        <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:430px;max-height:92vh;overflow:hidden;background:var(--color-surface);border:1px solid var(--color-neutral-800);border-radius:0">
+        <div style="position:absolute;left:1px;right:1px;bottom:0;height:56px;z-index:3;background:linear-gradient(180deg, transparent, rgba(22,24,38,.94));pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px">
+          <button onClick="{{ modalToEnd }}" aria-label="맨 아래로" style="pointer-events:auto;cursor:pointer;background:none;border:none;color:var(--color-neutral-300);font-size:18px;line-height:1;padding:6px 14px">⌄</button>
+        </div>
+        <div ref="{{ modalRef }}" style="max-height:92vh;overflow-y:auto">
+          <div style="position:relative;width:100%;aspect-ratio:3/4">
+            <image-slot id="{{ mImg }}" src="{{ mSrc }}" shape="rect" placeholder="{{ m.ph }}"></image-slot>
+            <div style="position:absolute;inset:0;background:linear-gradient(180deg, transparent 45%, rgba(15,16,28,.55) 75%, var(--color-surface) 100%);pointer-events:none"></div>
+            <button class="btn btn-icon" onClick="{{ closeChar }}" aria-label="닫기" style="position:absolute;top:12px;right:12px;background:rgba(10,11,20,.55);backdrop-filter:blur(3px)">✕</button>
+            <div style="position:absolute;left:20px;right:20px;bottom:14px">
+              <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap"><span style="font-size:24px;font-weight:600">{{ m.name }}</span><span style="font-size:12px;color:var(--color-neutral-400);font-family:ui-monospace,Menlo,monospace">{{ m.hj }}</span></div>
+              <div style="font-size:12.5px;color:var(--color-neutral-400);margin-top:3px">{{ m.sub }}</div>
+            </div>
+          </div>
+          <div style="padding:16px 20px 28px">
+          <sc-if value="{{ m.badge }}" hint-placeholder-val="{{ false }}"><div style="margin-bottom:4px"><span class="tag tag-accent">{{ m.badge }}</span></div></sc-if>
+          <p style="font-size:15px;font-weight:500;color:var(--color-neutral-200);margin:10px 0 10px;text-wrap:pretty">{{ m.line }}</p>
+          <p style="font-size:13.5px;color:var(--color-neutral-400);margin:0 0 16px;line-height:1.65;white-space:pre-line">{{ m.desc }}</p>
+          <div style="border-top:1px solid var(--color-neutral-800);padding-top:12px;display:flex;flex-direction:column;gap:8px">
+            <p style="font-size:13.5px;color:var(--color-accent-300);margin:0">{{ m.q1 }}</p>
+            <sc-if value="{{ m.q2 }}" hint-placeholder-val="{{ false }}"><p style="font-size:13.5px;color:var(--color-accent-300);margin:0">{{ m.q2 }}</p></sc-if>
+          </div>
+          <sc-if value="{{ m.hook }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:16px;background:var(--color-neutral-900);border-radius:0;padding:12px 14px">
+              <h6 style="color:var(--color-neutral-500);margin:0 0 5px">당신과의 관계</h6>
+              <p style="font-size:13px;color:var(--color-neutral-300);margin:0">{{ m.hook }}</p>
+            </div>
+          </sc-if>
+          </div>
+        </div>
+        </div>
+      </div>
+    </sc-if>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ pageRel }}" hint-placeholder-val="{{ false }}">
+  <section id="rel" class="px" style="padding:24px 20px 10px">
+    <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--color-accent)">04 · RELATIONS</div>
+    <h2 style="font-size:27px;margin:6px 0 4px">관계도</h2>
+    <p style="font-size:13px;color:var(--color-neutral-500);margin:0 0 6px">인물 이름을 탭하면 그 인물에 대한 관계만 보입니다.<br>관계 선을 탭하면 그 관계에 대한 자세한 이야기를 볼 수 있습니다.</p>
+    <div style="height:1px;background:linear-gradient(90deg, var(--color-neutral-700), transparent);margin:18px 0 16px"></div>
+
+    <div class="rel-cols">
+    <div style="min-width:0">
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:10px">
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--color-neutral-400)"><svg width="34" height="10" viewBox="0 0 34 10"><line x1="1" y1="5" x2="33" y2="5" stroke="oklch(0.75 0.09 195)" stroke-width="1.6"></line></svg>신뢰</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--color-neutral-400)"><svg width="34" height="10" viewBox="0 0 34 10"><line x1="7" y1="5" x2="27" y2="5" stroke="oklch(0.63 0.14 30)" stroke-width="1.6"></line><path d="M8,1.5 1,5 8,8.5 z" fill="oklch(0.63 0.14 30)"></path><path d="M26,1.5 33,5 26,8.5 z" fill="oklch(0.63 0.14 30)"></path></svg>적대</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--color-neutral-400)"><svg width="34" height="10" viewBox="0 0 34 10"><line x1="1" y1="5" x2="27" y2="5" stroke="oklch(0.78 0.11 85)" stroke-width="1.6"></line><path d="M26,1.5 33,5 26,8.5 z" fill="oklch(0.78 0.11 85)"></path></svg>의심</span>
+      <span style="display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:var(--color-neutral-400)"><svg width="34" height="10" viewBox="0 0 34 10"><line x1="1" y1="5" x2="33" y2="5" stroke="oklch(0.68 0.13 340)" stroke-width="1.6" stroke-dasharray="4 7"></line></svg>비밀</span>
+    </div>
+
+    <div style="background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);border-radius:0;padding:6px 2px">
+      <svg viewBox="0 0 400 500" style="width:100%;display:block">
+        <defs>
+          <marker id="arr-h" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="oklch(0.63 0.14 30)"></path></marker>
+          <marker id="arr-s" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="oklch(0.78 0.11 85)"></path></marker>
+        </defs>
+        <sc-for list="{{ edges }}" as="e" hint-placeholder-count="3">
+          <path d="{{ e.d }}" stroke="{{ e.color }}" stroke-width="{{ e.w }}" stroke-dasharray="{{ e.dash }}" opacity="{{ e.o }}" fill="none" stroke-linecap="round" marker-start="{{ e.ms }}" marker-end="{{ e.me }}"></path>
+          <path d="{{ e.d }}" stroke="transparent" stroke-width="14" fill="none" onClick="{{ e.onClick }}" style="{{ e.hitStyle }}"></path>
+        </sc-for>
+        <sc-for list="{{ edges }}" as="e" hint-placeholder-count="3">
+          {{ e.labelEl }}
+        </sc-for>
+        <sc-for list="{{ nodes }}" as="n" hint-placeholder-count="4">
+          <g onClick="{{ n.onClick }}" opacity="{{ n.o }}" style="cursor:pointer">
+            <circle cx="{{ n.x }}" cy="{{ n.y }}" r="{{ n.r }}" fill="{{ n.fill }}" stroke="{{ n.ring }}" stroke-width="{{ n.sw }}"></circle>
+            {{ n.labelEl }}
+          </g>
+        </sc-for>
+      </svg>
+    </div>
+    </div>
+    <div style="min-width:0">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin:14px 0 8px">
+      <h6 style="margin:0;color:var(--color-neutral-300)">{{ relTitle }}</h6>
+      <sc-if value="{{ hasNode }}" hint-placeholder-val="{{ false }}"><button class="btn btn-ghost" onClick="{{ resetNode }}" style="font-size:11px;padding:4px 10px">전체 보기</button></sc-if>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:9px">
+      <sc-for list="{{ relList }}" as="r" hint-placeholder-count="3">
+        <div style="display:flex;gap:9px;align-items:flex-start">
+          <span style="{{ r.dot }}"></span>
+          <div><span style="font-size:13px;font-weight:600">{{ r.pair }}</span><span style="{{ r.typeStyle }}">{{ r.typeLabel }}</span><div style="font-size:12.5px;color:var(--color-neutral-400);margin-top:1px">{{ r.desc }}</div></div>
+        </div>
+      </sc-for>
+    </div>
+    </div>
+    </div>
+
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ pageYou }}" hint-placeholder-val="{{ false }}">
+  <section id="you" class="px" style="padding:24px 20px 10px;max-width:1000px">
+    <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--color-accent)">05 · USER</div>
+    <h2 style="font-size:27px;margin:6px 0 4px">당신 — 유저노트 추천</h2>
+    <p style="font-size:13px;color:var(--color-neutral-500);margin:0 0 6px">난이도를 고르고, 유저노트를 복사해 바로 쓰십시오.</p>
+    <div style="height:1px;background:linear-gradient(90deg, var(--color-neutral-700), transparent);margin:18px 0 20px"></div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(320px, 1fr));gap:12px">
+      <sc-for list="{{ userNotes }}" as="un" hint-placeholder-count="4">
+        <div style="{{ un.cardStyle }}">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span class="{{ un.tagClass }}" style="{{ un.tagStyle }}">{{ un.level }}</span></div>
+          <div style="font-size:15.5px;font-weight:600;margin-bottom:12px">{{ un.title }}</div>
+          <div style="position:relative;background:var(--color-bg);border:1px solid var(--color-neutral-800)">
+            <button onClick="{{ un.copy }}" aria-label="유저노트 복사" style="position:absolute;top:6px;right:6px;display:flex;align-items:center;gap:5px;background:var(--color-neutral-900);border:1px solid var(--color-neutral-700);color:var(--color-neutral-300);font-family:inherit;font-size:11px;padding:5px 9px;cursor:pointer" style-hover="{ borderColor: 'var(--color-accent-700)', color: 'var(--color-accent-200)' }">
+              {{ un.copyLabel }}
+            </button>
+            <pre style="margin:0;padding:12px 13px;font-family:inherit;font-size:12.5px;line-height:1.7;color:var(--color-neutral-300);white-space:pre-wrap;word-break:break-word">{{ un.note }}</pre>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <h6 style="color:var(--color-neutral-500);margin:28px 0 10px">자동 발생 이벤트 덱</h6>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      <span class="tag tag-neutral">서태건의 정기 독대</span><span class="tag tag-neutral">금이안의 접근</span><span class="tag tag-neutral">사혁의 연락</span><span class="tag tag-neutral">유이민의 질투 유발</span><span class="tag tag-neutral">백하람의 감시 일상</span><span class="tag tag-neutral">설연화의 티타임</span><span class="tag tag-neutral">위기 이벤트</span>
+      <span class="tag tag-outline">담배 타임</span><span class="tag tag-outline">목격 — 부두의 뒷정리</span><span class="tag tag-outline">무력 충돌의 밤</span><span class="tag tag-outline">은밀한 술자리</span><span class="tag tag-outline">세븐포트 VIP룸</span><span class="tag tag-outline">B1의 밤</span>
+    </div>
+
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ pagePlaces }}" hint-placeholder-val="{{ false }}">
+  <section id="places" style="padding:24px 0 10px">
+    <div class="px" style="padding:0 20px">
+      <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:600;letter-spacing:.22em;color:var(--color-accent)">06 · PLACES</div>
+      <h2 style="font-size:27px;margin:6px 0 4px">공간</h2>
+      <p style="font-size:13px;color:var(--color-neutral-500);margin:0 0 6px">위로 갈수록 권력, 아래로 갈수록 진실 — 42층에 웃음이, 지하 6층에 본색이 있다.</p>
+      <div style="height:1px;background:linear-gradient(90deg, var(--color-neutral-700), transparent);margin:18px 0 8px"></div>
+    </div>
+    <sc-for list="{{ zones }}" as="z" hint-placeholder-count="2">
+      <div style="padding:16px 0 4px">
+        <div class="px" style="display:flex;align-items:baseline;gap:8px;padding:0 20px;margin-bottom:10px">
+          <h3 style="font-size:16.5px;margin:0">{{ z.name }}</h3>
+          <span style="font-size:11px;color:var(--color-neutral-500)">{{ z.tone }}</span>
+        </div>
+        <div style="position:relative">
+        <div style="position:absolute;top:0;bottom:10px;right:0;width:52px;z-index:2;background:linear-gradient(90deg, transparent, rgba(22,24,38,.94));pointer-events:none;display:flex;align-items:center;justify-content:flex-end">
+          <button onClick="{{ z.next }}" aria-label="다음 카드" style="pointer-events:auto;cursor:pointer;background:none;border:none;color:var(--color-neutral-300);font-size:20px;line-height:1;padding:14px 8px">›</button>
+        </div>
+        <div ref="{{ z.railRef }}" onMouseDown="{{ z.drag }}" class="rail" style="display:flex;gap:12px;overflow-x:auto;padding:0 52px 10px 20px;scroll-snap-type:x mandatory;scroll-padding-left:20px;cursor:grab;user-select:none">
+          <sc-for list="{{ z.items }}" as="p" hint-placeholder-count="2">
+            <div onClick="{{ p.open }}" style="flex:none;width:258px;scroll-snap-align:start;background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);border-radius:0;overflow:hidden;cursor:pointer">
+              <div style="position:relative;width:100%;aspect-ratio:4/3"><image-slot id="{{ p.id }}" shape="rect" placeholder="{{ p.ph }}"></image-slot></div>
+              <div style="padding:11px 13px 13px">
+                <div style="font-size:14px;font-weight:600;margin-bottom:3px">{{ p.name }}</div>
+                <p style="font-size:12px;color:var(--color-neutral-400);margin:0">{{ p.air }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        </div>
+      </div>
+    </sc-for>
+    <p class="px" style="font-size:11px;color:var(--color-neutral-600);padding:6px 20px 0">모든 이미지는 4:3 · 파일 규칙은 README 참조 (assets/places/…) · 빈 자리에 이미지를 드롭하면 저장됩니다.</p>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ notHome }}" hint-placeholder-val="{{ false }}">
+    <div class="px" style="padding:28px 20px 0">
+      <button class="btn btn-ghost" onClick="{{ goHome }}" style="font-size:13px;padding:12px 20px">← 홈으로</button>
+    </div>
+  </sc-if>
+
+  <footer class="px" style="padding:48px 20px 56px">
+    <div style="height:1px;background:linear-gradient(90deg, transparent, var(--color-neutral-700), transparent);margin-bottom:28px"></div>
+    <div style="display:flex;gap:10px;margin-bottom:18px;max-width:560px">
+      <a href="https://share.crack.wrtn.ai/9fis8f" target="_blank" rel="noopener" style="flex:1;display:flex;flex-direction:column;gap:0;text-decoration:none;background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);overflow:hidden" style-hover="border-color:var(--color-accent)">
+        <img src="uploads/title_black-night_unsafety.gif" alt="흑야 성인판 타이틀" style="display:block;width:100%;aspect-ratio:213/320;object-fit:cover">
+        <span class="btn btn-secondary" style="justify-content:center;border:0;border-top:1px solid var(--color-neutral-800);border-radius:0">크랙 : 성인판 플레이</span>
+      </a>
+      <a href="https://share.crack.wrtn.ai/4uoesu" target="_blank" rel="noopener" style="flex:1;display:flex;flex-direction:column;gap:0;text-decoration:none;background:var(--color-neutral-900);border:1px solid var(--color-neutral-800);overflow:hidden" style-hover="border-color:var(--color-accent)">
+        <img src="uploads/title_black-night_safety.gif" alt="흑야 전체연령가 타이틀" style="display:block;width:100%;aspect-ratio:213/320;object-fit:cover">
+        <span class="btn btn-secondary" style="justify-content:center;border:0;border-top:1px solid var(--color-neutral-800);border-radius:0">크랙 : 전체연령가 플레이</span>
+      </a>
+    </div>
+    <p style="font-size:11.5px;color:var(--color-neutral-500);margin:0 0 4px">《흑야(黑夜)》 — 한국형 여성향 느와르 인터랙티브 AI 챗 · 제작 Lored Studio</p>
+    <p style="font-size:11px;color:var(--color-neutral-600);margin:0">본 작품의 모든 기업·조직·인물·수치는 가상입니다.</p>
+  </footer>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;bombHighlight&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;관계도&quot;,&quot;description&quot;:&quot;시한폭탄 4종 관계선을 기본 강조&quot;},&quot;factionTint&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;인물 카드&quot;,&quot;description&quot;:&quot;인물 카드 테두리에 진영 색 틴트&quot;}}">
+class Component extends DCLogic {
+  state = { page: 'home', tab: 'hy', sel: null, node: null, edge: null, spoilerOpen: false, hardOpen: false, atEnd: false };
+  componentDidMount() {
+    this._onScroll = () => {
+      const atEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 40;
+      if (atEnd !== this.state.atEnd) this.setState({ atEnd });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+  }
+  componentWillUnmount() { window.removeEventListener('scroll', this._onScroll); }
+  deskLinkStyle(active) {
+    return { padding: '7px 12px', fontSize: '13px', cursor: 'pointer', textDecoration: 'none', letterSpacing: '.02em',
+      color: active ? 'var(--color-accent-200)' : 'var(--color-neutral-300)',
+      background: active ? 'var(--color-accent-900)' : 'transparent',
+      border: '1px solid ' + (active ? 'var(--color-accent-800)' : 'transparent') };
+  }
+  menuItemStyle(active) {
+    return {
+      display: 'flex', alignItems: 'center', gap: '11px', padding: '13px 18px',
+      fontSize: '14px', textDecoration: 'none', cursor: 'pointer',
+      color: active ? 'var(--color-accent-200)' : 'var(--color-neutral-300)',
+      background: active ? 'var(--color-accent-900)' : 'transparent',
+      borderLeft: active ? '2px solid var(--color-accent)' : '2px solid transparent'
+    };
+  }
+  HI = {
+    'tower-exterior': 'uploads/heukyoung_tower.png',
+    'tower-lobby-1f': 'uploads/tower-lobby-1f.png',
+    'tower-office-42f': 'uploads/tower_office_42f.png',
+    'tower-strategy-41f': 'uploads/tower-strategy-41f-c5913230.png',
+    'tower-clinic-b3': 'uploads/tower_clinic_b3.png',
+    'tower-hideout-b6': 'uploads/tower_hideout_b6.png',
+    'sevenport-vip': 'uploads/sevenport-vip.png',
+    'b1-bar': 'uploads/b1-bar.png',
+    'f1-bar': 'uploads/f1-bar.png',
+    'port-yard': 'uploads/port-yard.png',
+    'port-warehouse': 'uploads/port-warehouse.png',
+    'sageom-hq': 'uploads/sageom_hq.png',
+    'sageom-office': 'uploads/sageom_office.png',
+    'mansion-exterior': 'uploads/mansion-exterior.png',
+    'mansion-living': 'uploads/mansion-living.png',
+    'mansion-hallway': 'uploads/mansion-hallway.png',
+    'mansion-study': 'uploads/mansion-study.png',
+    'mansion-pool': 'uploads/mansion-pool.png',
+    'mansion-bedroom': 'uploads/mansion-bedroom.png',
+    'mansion-guestroom': 'uploads/mansion-guestroom.png'
+  };
+  goPage(id) {
+    this.setState({ page: id, sel: null });
+    window.scrollTo({ top: 0 });
+  }
+  userNotes() {
+    const NOTES = [
+      { level: 'EASY', title: '아무것도 모르는 사람', hard: false,
+        note: '#{user}\n-사검항만에서 면접을 보기 위해 들렀다가 길을 헤맸다.\n-사검파에 대해서는 아무것도 모르는 민간인' },
+      { level: 'NOIR', title: '당신은 사검파 보스의 외조카', hard: false,
+        note: '#{user}\n-사혁의 외조카\n-사은채의 친자식\n-엄마와 외삼촌이 조폭인 줄 모르고 그냥 사검항만 대표와 임원인 줄 알고 컸다\n-사혁과 사은채는 {user}에게 음지 문화를 전혀 알리지 않고 양지에서 키우려고 애썼다\n-그 결과 {user}는 자기 집안이 조폭 집안인 줄도 모르고 평범한 대학생으로 자랐다\n-{user}은 모르고 있지만 {user}의 지문과 홍채가 사검파의 가장 중요한 금고를 여는 열쇠이다' },
+      { level: 'HARD NOIR', title: '당신은 사검파의 핵심 조직원', hard: true,
+        note: '#{user}\n-사검파의 숨겨진 두뇌\n-흑야회의 속셈을 간파한 사혁이 이중스파이로 쓰기 위해 민간인인 척하며 약속 장소에 보냈다\n-사검파의 약점과 비밀을 거의 다 알고 있다.' },
+      { level: 'SPECIAL', title: '아무것도 모르는 토끼 수인', hard: false,
+        note: '#세계관\n-인구의 0.1% 정도는 수인이며, 그 안에서도 토끼 수인은 더 적음\n-토끼 수인은 신비롭고 매력적인 존재로 그 가치가 평범한 인간보다 더 높음\n\n#{user}\n-하얀 아기 토끼 모습과 사람 모습을 맘대로 왔다갔다 할 수 있는 수인\n-사람 모습일 때도 토끼의 귀와 꼬리는 그대로\n-긴 토끼 귀와 동그란 토끼 꼬리를 가짐\n-겁먹으면 \'삐유삐유\' 소리를 냄' }
+    ];
+    const copied = this.state.copiedNote;
+    return [NOTES[0], NOTES[3], NOTES[1], NOTES[2]].map((n, i) => ({
+      ...n,
+      cardStyle: {
+        background: 'var(--color-neutral-900)', borderRadius: 0, padding: '16px',
+        border: '1px solid ' + (n.hard ? 'color-mix(in srgb, oklch(0.62 0.1 45) 45%, var(--color-neutral-800))' : 'var(--color-neutral-800)')
+      },
+      tagClass: n.hard ? 'tag tag-outline' : 'tag tag-neutral',
+      tagStyle: n.hard ? { fontSize: '10px', color: 'oklch(0.72 0.1 45)', borderColor: 'oklch(0.55 0.09 45)' } : { fontSize: '10px' },
+      copyLabel: copied === i ? '✓ 복사됨' : '⧉ 복사',
+      copy: () => {
+        const done = () => {
+          this.setState({ copiedNote: i, toast: true });
+          clearTimeout(this._copyT);
+          this._copyT = setTimeout(() => this.setState({ copiedNote: null, toast: false }), 2200);
+        };
+        const fallback = () => {
+          const ta = document.createElement('textarea');
+          ta.value = n.note; ta.style.position = 'fixed'; ta.style.opacity = '0';
+          document.body.appendChild(ta); ta.select();
+          try { document.execCommand('copy'); done(); } catch (e) {}
+          document.body.removeChild(ta);
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(n.note).then(done).catch(fallback);
+        } else fallback();
+      }
+    }));
+  }
+  rail(i) {
+    if (!this._rails) this._rails = {};
+    if (!this._rails[i]) {
+      const r = { ref: React.createRef() };
+      r.down = (ev) => {
+        const el = r.ref.current; if (!el) return;
+        const startX = ev.clientX, startLeft = el.scrollLeft; let moved = false;
+        el.style.scrollSnapType = 'none'; el.style.cursor = 'grabbing';
+        const move = (e) => { const dx = e.clientX - startX; if (Math.abs(dx) > 4) moved = true; el.scrollLeft = startLeft - dx; };
+        const up = (e) => {
+          window.removeEventListener('mousemove', move); window.removeEventListener('mouseup', up); window.removeEventListener('click', block, true);
+          el.style.cursor = 'grab';
+          const w = 270, target = Math.round(el.scrollLeft / w) * w;
+          el.scrollTo({ left: target, behavior: 'smooth' });
+          setTimeout(() => { el.style.scrollSnapType = ''; }, 350);
+        };
+        const block = (e) => { if (moved) { e.stopPropagation(); e.preventDefault(); } };
+        window.addEventListener('mousemove', move); window.addEventListener('mouseup', up); window.addEventListener('click', block, true);
+      };
+      r.next = () => { const el = r.ref.current; if (el) el.scrollBy({ left: 270, behavior: 'smooth' }); };
+      this._rails[i] = r;
+    }
+    return this._rails[i];
+  }
+
+  data() {
+    if (this._d) return this._d;
+    const FAC = {
+      hy: { label: '흑야회', c: '#cfd3e5' },
+      sg: { label: '사검파', c: 'oklch(0.62 0.1 45)' },
+      night: { label: '밤의 세계', c: 'oklch(0.6 0.13 15)' },
+      law: { label: '검경·정계', c: 'oklch(0.68 0.06 240)' }
+    };
+    const REL = {
+      t: { label: '신뢰', c: 'oklch(0.75 0.09 195)' },
+      h: { label: '적대', c: 'oklch(0.63 0.14 30)' },
+      s: { label: '의심', c: 'oklch(0.78 0.11 85)' },
+      x: { label: '비밀', c: 'oklch(0.68 0.13 340)' }
+    };
+    const CHARS = [
+      { id: 'seo', name: '서태건', hj: '徐泰建', sub: '39세 · 흑영그룹 회장 / 흑야회 보스', fac: 'hy', main: true, img: 'char-seo-taegun', ph: '서태건 — assets/characters/seo-taegun.png',
+        line: '전대 흑야회 보스의 외아들을 실적으로 찍어누르고 왕좌에 오른 남자.',
+        desc: '흑영캐피탈에 도박빚을 졌던 서태건의 부모는 담보로 잡을 것이 없어 흑야회에 아들을 넘겼다. 어린 나이부터 부모빚을 노동으로 갚던 그는 조직의 밑바닥에서부터 자력으로 꼭대기까지 올라갔다. 그는 폭력 조직이었던 흑야회를 완벽히 기업으로 세탁해 수익을 수백배 불리며 만장일치에 가깝게 회장으로 추대되었다.',
+        q1: '"내가 왜 화를 내. 지금 너무 재밌는데."',
+        hook: "당신이 정말 아무것도 모르는 민간인이라면 당신을 납치한 것은 서태건의 '실수'가 된다. 하지만 당신이 사검파에게 소중한 존재라면 당신은 서태건에게 '포섭해야하는 대상'이 된다. 아직은 어느쪽인지 확실하지 않기에 서태건은 당신을 최대한 회유하고 포섭하려고 한다." },
+      { id: 'sih', name: '백시헌', hj: '白時憲', sub: '32세 · 흑영그룹 전략실장 / 흑야회 2인자', fac: 'hy', main: true, img: 'char-baek-siheon', src: 'assets/characters/baek-siheon.png', ph: '백시헌 — assets/characters/baek-siheon.png',
+        line: '조직의 두뇌이자 서태건의 조용한 칼날',
+        desc: '15세, 부모의 도박 빚 4억에 사채업자 지하 사무실로 끌려온 날 흑야회 조직원들을 똑바로 보며 말한다.\n\n"아버지가 빌린 돈이면 아버지한테 받으세요.\n미성년자인 제가 보증한 서류 있으면 보여주시고, 없으면 감금죄로 신고하겠습니다."\n\n당돌한 그를 보며 자신의 과거를 떠올린 서태건은 그를 거두어 가까이 두고 기른다.\n\n무력 뿐 아니라 지성까지 갖춘 그는 서태건의 완벽한 오른팔로 성장했다.',
+        q1: '"일을 똑바로 하는 놈이 하나도 없군."',
+        hook: '자꾸만 마음이 가는, 주인의 소유물.' },
+      { id: 'ian', name: '금이안', hj: '琴以安', sub: '36세 · 세븐포트 카지노 대표', fac: 'hy', main: true, badge: '미워할 수 없는 적', img: 'char-geum-ian', src: 'uploads/geum-ian.png', ph: '금이안 — assets/characters/geum-ian.png',
+        line: '흑야회의 몰락한 황태자',
+        desc: '전대 회장 금옥천과 프랑스인 본처 사이의 외아들.\n\n자신이 태어날 때부터 흑야회의 후계자라고 믿어 의심치 않았지만 서태건의 압도적인 성과에 눌려 왕좌를 빼앗겼다.\n\n흑영그룹의 계열사 대표로 지내면서 계속해서 자신의 자리를 찾기 위해 서태건의 흠을 찾는 중.',
+        q1: '"남의 자리에서 뻔뻔하게 잘도 웃네."',
+        hook: "당신이 완벽한 민간인이라면 당신은 그 자체로 '서태건의 치명적인 실수'가 된다.\n\n그렇기에 금이안은 당신을 자기편으로 포섭해서 당신을 무기로 쓰고자 한다." },
+      { id: 'hrm', name: '백하람', sub: '26세 · 흑야회 행동대장', fac: 'hy', main: true, img: 'char-baek-haram', src: 'uploads/baek-haram.png', ph: '백하람 — assets/characters/baek-haram.png',
+        line: '충직하지만 위험한 젊은 행동대장',
+        desc: '소년원 출신. 백시헌이 직접 거둬 사람 구실을 하게 만들었고, 그래서 실장님에게만은 절대복종한다.\n\n혈기왕성한 다혈질에 늘 화가 나있다.\n\n동물적인 감이 뛰어나 잠입한 형사 강재경(김준서)을 가장 먼저 의심한다.',
+        q1: '"지난번에 덜 팼나? 생각보다 멀쩡하네?"',
+        hook: '보스의 소유물. 당신을 지키기 위해 서태건은 백하람을 쓴다.\n\n그렇게 당신을 지키다 보니 당신에게 정이 드는 백하람.' },
+      { id: 'ire', name: '문이레', sub: '34세 · 뒷세계 주치의', fac: 'hy', badge: '회색 인물', img: 'char-moon-ire', src: 'assets/characters/mun-ire.png', src2: 'assets/characters/mun-ire2.png', ph: '문이레 — assets/characters/moon-ire.png',
+        line: '다정한 미소 뒤에 비밀이 있다. 누구에게나 상냥하고, 누구의 편도 아니다.',
+        desc: '면허 정지된 전직 외과의. 흑영타워 지하 3층 의무실에서 서류에 남길 수 없는 환자들을 치료한다. 조직 전원의 몸 상태와 비밀을 아는, 이 세계관 최대의 정보 보유자. 강재경의 몸에 남은 오래된 총상 흔적을 이미 봤을지도 모른다 — 그는 아직 아무 말도 하지 않았다.',
+        q1: '"많이 아팠겠다. …누가 그랬는지는, 안 물을게요."' },
+      { id: 'jsu', name: '박종수', sub: '66세 · 한남동 저택 총괄 집사', fac: 'hy', img: 'char-park-jongsu', ph: '박종수 — assets/characters/park-jongsu.png',
+        line: '두 시대를 모신 완벽한 집사. 웃음 뒤의 소년을 기억하는 사람.',
+        desc: "전대 회장 금옥천의 집사장. 사후, 모두가 눈치를 보던 시기에 스스로 서태건을 찾아와 고개를 숙였다. 저택에서 그가 모르는 일은 없고, 그가 아는 것 중 밖으로 나간 것도 없다. '열지 않은 봉투'를 회장에게 전달한 손.",
+        q1: '"이 집에서는 아무도 당신을 해치지 않습니다. …제가 있는 동안은요."',
+        q2: '"회장님의 웃음에는 열두 가지가 있습니다. 오늘 것은 — 처음 보는 것이군요."',
+        hook: '저택의 일상을 쥔 가장 가까운 어른. 감시이자 보살핌 — 회장의 진심을 번역해 주는 통로.' },
+      { id: 'hyk', name: '사혁', hj: '史赫', sub: '38세 · 사검파 보스 / 사검항운 대표이사', fac: 'sg', main: true, img: 'char-sa-hyeok', src: 'uploads/sa-hyeok.png', ph: '사혁 — assets/characters/sa-hyeok.png',
+        line: '예측할 수 없는 미친개',
+        desc: '항상 기상천외한 언행으로 모두를 기함하게 하는 미친 놈.\n\n그러나 사실 그 모든 광기는 그의 계산의 결과물.\n\n그는 머리 회전이 비정상적으로 빠르고, 수읽기가 깊다.\n\n다만 도출되는 결론이 일반적이지 않은 수라서, 과정을 못 보는 사람들 눈에는 충동으로 보일 뿐이다.',
+        q1: '"아하하학! 여기 있네, 니 보물!"',
+        hook: '그의 작전에 예상치 못하게 휘말린 민간인, 서태건과의 수싸움에서 쓸 수 있는 패' },
+      { id: 'yhe', name: '추영해', sub: '34세 · 사검파 총무 / 사검항운 기획이사', fac: 'sg', img: 'char-chu-yeonghae', src: 'assets/characters/chu-yeonghae.png', ph: '추영해 — assets/characters/chu-yeonghae.png',
+        line: '부드러운 미소의 살모사. 광기의 통역가.',
+        desc: '보스가 판을 뒤엎고 나가면, 그가 남아 미소 지으며 진짜 조건을 내민다 — 완벽하게 설계된 투맨 셀. 협상 테이블에서 백시헌과 가장 자주 마주 앉는 카운터파트이자 숙적. 가장 위협적인 말일수록 가장 공손하게.',
+        q1: '"저희 대표님이 화가 나신 게 아니라요. …화를 낼지 말지를, 지금 정하고 계신 겁니다."' },
+      { id: 'dgs', name: '독고신', sub: '27세 · 사검파 행동대장', fac: 'sg', img: 'char-dokgo-sin', src: 'assets/characters/dokgo-sin.png', src2: 'assets/characters/dokgo-sin2.png', ph: '독고신 — assets/characters/dokgo-sin.png',
+        line: '말없는 도사견. 백하람의 대칭점.',
+        desc: '백하람과 같은 소년원 출신 동기이자 담장 안에서 세 번 붙어 승부를 못 낸 앙숙. 사혁의 원칙 — 식구의 뒤는 끝까지 — 에 구원받은 과거가 있어, 말없이 목숨으로 충성한다. 백시헌의 침묵이 절제라면 독고신의 침묵은 경고다.',
+        q1: '"…비켜. 두 번 말 안 해."' },
+      { id: 'ech', name: '사은채', sub: '40세 · 사검항운 재무이사', fac: 'sg', img: 'char-sa-eunchae', src: 'assets/characters/sa-eunchae.png', ph: '사은채 — assets/characters/sa-eunchae.png',
+        line: '남동생의 광대극을 타박하는 유일한 혈육. 사검파의 금고지기.',
+        desc: '사혁의 친누나. 사검파의 돈이 전부 그녀의 장부를 거친다. 사혁의 연기를 어릴 때부터 봐 온 탓에 전혀 무서워하지 않고, 회의 중에도 대놓고 타박하는 유일한 사람. F1의 단골.',
+        q1: '"혁아, 칼 내려놔. 과일값 아까워."' },
+      { id: 'ynh', name: '설연화', sub: '36세 · B1·F1 총괄 매니저 / 야연 인재관리실장', fac: 'night', badge: '유일한 안전지대', img: 'char-seol-yeonhwa', src: 'uploads/seol-yeonhwa.png', ph: '설연화 — assets/characters/seol-yeonhwa.png',
+        line: '밤의 세계의 대모. 모든 진영이 인정하는 균형자.',
+        desc: '호스티스 출신으로 밑바닥의 밤을 10년 버텨, 자력으로 임원이 된 유일한 여성. B1과 F1은 그녀가 있는 한 중립지대라는 것이 밤의 세계의 불문율. 아이들의 빚 구조를 직접 들여다보고, 그만두는 아이의 다음 인생까지 봐 준다 — 그래서 그녀의 아이들은 그녀를 배신하지 않는다.',
+        q1: '"손님, 여기서는 명함이 아니라 매너가 계급입니다."',
+        q2: '"이민아. 돈은 벌어도 돼. 마음은 팔지 마. 그건 시세가 없어서, 한번 팔면 못 사 와."',
+        hook: '어떤 비밀을 들켜도 괜찮은 유일한 사람 — 당신이 기대고 조언받을 수 있는 어른.' },
+      { id: 'imn', name: '유이민', sub: '28세 · B1 넘버원 호스티스 / 밤의 정보원', fac: 'night', badge: '전 루트 라이벌', img: 'char-yu-imin', src: 'uploads/yu-imin.png', ph: '유이민 — assets/characters/yu-imin.png',
+        line: '상대가 원하는 여자를 정확히 읽어 내고, 그 여자가 되어 준다.',
+        desc: 'B1 개점 이래 3년 연속 매출 1위 — 그녀의 지명 리스트가 곧 대한민국 권력 지도다. 감정은 상품이고 진심은 재고에 없다, 라고 스스로 믿는다. 김준서의 연기에서 미세한 이음새를 느낀 유일한 인물일 수 있다.',
+        q1: '"남자 마음은 다 똑같아요. 갖고 싶은 걸 못 가진 얼굴. …당신은 좀 다르네."',
+        q2: '"저 사람, 웃는 근육을 연습한 사람이야. 나처럼."',
+        hook: '당신이 마음을 두는 남자의 곁마다 나타나는 유일한 경쟁자 — 조력자도, 최대 위협도 될 수 있는 와일드카드.' },
+      { id: 'jk', name: '강재경', sub: "32세 · 잠입 형사 — 조직 내 이름 '김준서'", fac: 'law', main: true, img: 'char-kang-jaegyeong', src: 'assets/characters/kang-jaekyeong.png', ph: '강재경 — assets/characters/kang-jaegyeong.png',
+        line: '그들을 잡으러 들어왔다. 그런데 이제, 그들이 다치는 게 싫다.',
+        desc: "작전 '등대'. 공식 기록상 비위로 파면된 전직 경찰 — 경찰 전산 어디에도 잠입은 존재하지 않는다. '김준서'로 3년, 백시헌 직속 현장팀까지 들어왔고 기소에 충분한 증거를 절반 이상 확보했다. 그런데 보고서를 쓰는 손이 자꾸 멈추고, 녹음기를 끄는 날이 많아지고 있다.",
+        q1: '"형님들 하는 일이 뭐 다 그렇죠. 저는 시키는 것만 합니다?"',
+        q2: '"당신한테만은… 들키고 싶다는 생각을 했어. 미친 소리지."',
+        hook: '유일하게 정체를 들켜도 되는 사람 — 혹은 절대 들키면 안 되는 사람. 비밀 공유형 서사의 중심축.' },
+      { id: 'ihn', name: '차이헌', sub: '37세 · 서울중앙지검 특수부 검사', fac: 'law', img: 'char-cha-iheon', src: 'assets/characters/cha-iheon.png', src2: 'assets/characters/cha-iheon2.png', ph: '차이헌 — assets/characters/cha-iheon.png',
+        line: '법의 편에 선 위험한 엘리트. 협력자이자 감시자.',
+        desc: "작전 '등대'의 검찰 측 파트너 — 잠입을 처음부터 아는 다섯 명 중 하나. 동시에 보고의 양과 질과 패턴을 읽는 감시자로, 강재경이 흑야회 쪽으로 기울면 가장 먼저 알아챌 인물이다. 그리고 실제로 최근, 알아채기 시작했다.",
+        q1: '"저는 법을 믿습니다. 법이 닿는 데까지는요."',
+        q2: '"…등대 말입니다. 요즘, 불빛이 흐려요."' },
+      { id: 'gps', name: '오갑수', sub: '48세 · 광역수사단 계장(경정)', fac: 'law', img: 'char-oh-gapsu', src: 'assets/characters/oh-gapsu.png', ph: '오갑수 — assets/characters/oh-gapsu.png',
+        line: '법의 탈을 쓴 조직의 귀. 매수된 20년 베테랑.',
+        desc: "매달 백시헌의 라인에서 '자문료'가 차명 계좌로 들어간다. 잠입 작전의 존재는 모른다 — 그러나 순경 시절 강재경의 얼굴을 스쳐 본, 알아내기에 가장 좋은 위치의 남자다. \"…어디서 봤더라, 저 낯짝.\" 알아낸 순간, 협박이 먼저고 밀고가 다음이다.",
+        q1: '"형사 월급으로는 애들 학원비가 안 나와서 말입니다, 하하."' },
+      { id: 'msk', name: '원명석', sub: '58세 · 4선 국회의원(법사위) / B1 단골', fac: 'law', img: 'char-won-myeongseok', src: 'assets/characters/won-myeongseok.png', ph: '원명석 — assets/characters/won-myeongseok.png',
+        line: '약점 잡힌 권력. 흑야회의 정치 방패이자 B1의 가장 위험한 단골.',
+        desc: '대외적으로는 청렴과 민생의 아이콘. 실제로는 도박 빚과 B1에서의 행적이 담긴 자료 일체가 흑영타워 금고에 보관되어 있다 — 서태건은 그것을 한 번도 꺼내 보인 적이 없다. 보관되어 있다는 사실을 알려 주는 것만으로 충분하기 때문이다.',
+        q1: '(식은땀) "회장님, 그… 그 서류는, 잘 보관되고 있지요?"' }
+    ];
+    const NODES = {
+      u:   { n: '당신', x: 200, y: 250, f: null },
+      seo: { n: '서태건', x: 148, y: 78 },
+      sih: { n: '백시헌', x: 258, y: 64 },
+      ian: { n: '금이안', x: 52, y: 112 },
+      hrm: { n: '백하람', x: 348, y: 100 },
+      jsu: { n: '박종수', x: 50, y: 202 },
+      ire: { n: '문이레', x: 352, y: 182 },
+      jk:  { n: '강재경', x: 280, y: 178 },
+      ihn: { n: '차이헌', x: 354, y: 264 },
+      gps: { n: '오갑수', x: 350, y: 344 },
+      msk: { n: '원명석', x: 46, y: 292 },
+      hyk: { n: '사혁', x: 95, y: 362 },
+      yhe: { n: '추영해', x: 42, y: 434 },
+      dgs: { n: '독고신', x: 122, y: 472 },
+      ech: { n: '사은채', x: 212, y: 478 },
+      ynh: { n: '설연화', x: 288, y: 462 },
+      imn: { n: '유이민', x: 332, y: 412 }
+    };
+    for (const [k, v] of Object.entries(NODES)) if (!v.f && k !== 'u') v.f = (CHARS.find(c => c.id === k) || {}).fac;
+    const EDGES = [
+      ['seo', 'sih', 't', '거둔 자와 길러진 자. 신뢰이자 소유 — 그리고 거울.'],
+      ['sih', 'jk', 't', "처음으로 '아우'라고 느낀 부하. 챙기고 있다는 자각조차 없이 챙긴다."],
+      ['jk', 'seo', 'x', '잡아야 할 표적 / 잃고 싶지 않은 사람들. 매일 갱신되는 모순.'],
+      ['ian', 'seo', 'h', '인생 전부를 빼앗아 간 남자. 증오이자 열등감이자, 어쩌면 인정 욕구.'],
+      ['hrm', 'jk', 's', '"냄새가 달라." 본능적 의심. (시한폭탄 1)', 1],
+      ['imn', 'jk', 's', '"웃는 근육을 연습한 사람." 독해에 의한 의심. (시한폭탄 2)', 1],
+      ['ihn', 'jk', 'x', "작전 '등대'의 협력자이자 감시자 — \"요즘, 불빛이 흐려요.\" (시한폭탄 3)", 1],
+      ['gps', 'jk', 's', '순경 시절 얼굴을 기억할 수 있는 유일한 경찰. 알아내는 순간 협박이 먼저. (시한폭탄 4)', 1],
+      ['gps', 'sih', 'x', '매수된 귀와 돈줄. 수사 정보가 흐르는 검은 파이프.'],
+      ['ynh', 'imn', 't', '가장 아끼는 아이이자, 자신의 과거를 비추는 거울.'],
+      ['ynh', 'seo', 't', 'B1 중립 원칙을 사이에 둔 상호 존중의 긴장.'],
+      ['hyk', 'seo', 'h', '웃음 뒤의 분노와 광기 뒤의 계산 — 서로의 가면을 알아본 유일한 상대.'],
+      ['yhe', 'sih', 'h', '협상 테이블의 숙적. 스타일은 정반대, 수읽기는 동급.'],
+      ['dgs', 'hrm', 'h', '소년원 동기이자 승부를 못 낸 앙숙. (전면전의 뇌관)'],
+      ['ech', 'hyk', 't', '광대극이 통하지 않는 유일한 혈육이자 금고지기.'],
+      ['ech', 'ynh', 't', 'B1을 매개로 한 밤의 세계 여성들의 접점.'],
+      ['jsu', 'seo', 't', '두 시대를 모신 집사 — 웃음이 갑옷이 되기 전의 소년을 기억한다.'],
+      ['jsu', 'ian', 's', '어릴 적 자신을 키운 노인과, 배신자라 부르는 옛 도련님.'],
+      ['msk', 'seo', 'x', '금고 속 서류로 맺어진 주종 — 꺼내 보인 적 없는 약점이 가장 강한 목줄.'],
+      ['msk', 'imn', 'x', '지명 손님과 넘버원. 그가 흘리는 여의도의 말이 그녀의 상품이다.'],
+      ['ire', 'jk', 'x', "경찰 시절의 오래된 총상 흔적을 이미 봤을지도 모른다."],
+      ['ian', 'hyk', 'x', '염동구를 경유한 구파 밀약의 창구. (3파전의 도화선)'],
+      ['seo', 'u', 's', "'민간인인 척하는 사검파 핵심'. 다정함이 곧 심문 도구 — 그러다 연기와 진심의 경계를 잃는다."],
+      ['ian', 'u', 'x', "'서태건의 치명적인 흠'. 진실을 자신에게 말하게 하려, 목숨을 걸고 유혹한다."],
+      ['hyk', 'u', 'x', "'내 원칙이 어긋난 자리'. 빼내고 싶지만, 빼내려는 순간 더 위험해지는 사람."],
+      ['imn', 'u', 'h', '전 루트 공용 라이벌 — 마음을 두는 남자의 곁마다 나타난다.'],
+      ['ynh', 'u', 't', '유일한 안전지대. 무엇을 들켜도 팔지 않는다.'],
+      ['jsu', 'u', 't', '감시이자 보살핌 — 회장의 진심을 번역해 주는 통로.']
+    ];
+    const ZONES = [
+      { name: '흑영타워', tone: '흑야회의 본거지', items: [
+        { id: 'place-tower-exterior-card', name: '흑영타워 외관', file: 'tower-exterior', air: '유리와 검은 강철의 수직선 — 도시 위에 세운 조직의 얼굴.', detail: '' },
+        { id: 'place-tower-lobby-1f', name: '1층 로비', file: 'tower-lobby-1f', air: '대리석과 정적 — 기업의 얼굴을 한 조직의 첫인상.', detail: '' },
+        { id: 'place-tower-office-42f', name: '42층 회장 집무실', file: 'tower-office-42f', air: '무향에 가까운 방 — 희미한 우드 노트, 사람 냄새를 지운 공간.', detail: '남향 전면 통유리, 서울이 발밑에. 야간엔 책상 스탠드 하나 — 23시의 방은 불빛 반경 2m만 존재한다. 벽면 금고에 열지 않은 봉투.' },
+        { id: 'place-tower-strategy-41f', name: '41층 전략실', file: 'tower-strategy-41f', air: '종이 냄새, 키보드 소리조차 절제된 정적.', detail: '파티션 없는 롱테이블과 벽면 전체의 수납. 그림자가 생기지 않는 균질한 백색광 — 유일한 색은 결재판의 빨간 인주.' },
+        { id: 'place-tower-clinic-b3', name: '지하 3층 의무실', file: 'tower-clinic-b3', air: '소독약과 홍차 냄새가 섞인다. 새벽마다 젖은 발소리가 들어온다.', detail: '크림 화이트와 스테인리스. 지하인데 병원보다 깨끗하다 — 이 청결함이 오히려 서늘하다. 이름 없는 차트, 잠긴 서랍 하나.' },
+        { id: 'place-tower-hideout-b6', name: "지하 6층 '검은 아지트'", file: 'tower-hideout-b6', air: '콘크리트의 냉기, 담배와 녹 냄새. 환기구의 낮은 웅웅거림.', detail: '버튼에 없는 층. 나트륨등의 호박색 — 테이블 위만 밝고 벽은 어둠에 잠긴다. 얼굴의 절반만 보이는 조명. 당신이 처음 끌려온 곳.' },
+        { id: 'place-sevenport-vip', name: '세븐포트 VIP룸', file: 'sevenport-vip', air: '화려함의 최대치', detail: '진홍 카펫, 크리스털, 그린 펠트. 창이 없는 방 — 시간이 죽는 공간. 이 방 안에서는 금이안이 왕이다.' }
+      ]},
+      { name: '밤의 세계', tone: '심홍 벨벳 · 샴페인 골드', items: [
+        { id: 'place-b1-bar', name: 'B1 — 호스티스바', file: 'b1-bar', air: '향수와 위스키, 낮은 재즈. 방음문이 닫히는 소리가 이 공간의 마침표.', detail: '심홍 벨벳, 월넛 패널, 놋쇠. 촛불 높이의 점광원 — 거짓말하기 좋은 조도. 룸마다 다른 시그니처 향.' },
+        { id: 'place-f1-bar', name: 'F1 — 호스트바', file: 'f1-bar', air: '스파클링과 시트러스 향, 조금 더 높은 웃음소리 — "지하와 지상이 한 몸."', detail: "샴페인 골드와 아이보리, 크리스털 샹들리에. B1이 '숨기는 빛'이라면 F1은 '꾸미는 빛'." }
+      ]},
+      { name: '인천항 — 사검파의 영토', tone: '녹슨 철 + 바랜 원색 · 수평의 세계', items: [
+        { id: 'place-port-yard', name: '부두 야적장', file: 'port-yard', air: '바다 비린내, 디젤, 뱃고동. 발소리가 멀리까지 울린다.', detail: '컨테이너의 협곡, 크레인의 실루엣. 새벽 안개 속 수은등 — 해 뜨기 직전의 청회색이 기본값. 프롤로그의 납치 현장.' },
+        { id: 'place-port-warehouse', name: '폐창고', file: 'port-warehouse', air: '녹과 재 냄새, 바람에 우는 철판. 폭력은 프레임 밖 — 보이는 것은 결과뿐.', detail: '녹슨 철골, 깨진 채광창의 사광. 밤에는 드럼통 불빛 하나 — 인물을 실루엣으로 만드는 단일 광원.' },
+        { id: 'place-sageom-hq', name: '사검항운 본사', file: 'sageom-hq', air: '정장 구두가 자갈을 밟는 소리 — 회사인지 조직인지 건물부터 모호하다.', detail: '색 바랜 간판, 외벽의 빗물 얼룩. 주차장에 지게차와 검은 세단이 나란히. 경비실의 노인은 모든 얼굴을 기억한다.' },
+        { id: 'place-sageom-office', name: '사검항운 대표실', file: 'sageom-office', air: '바다 냄새가 창으로 들어온다. 석양이 방을 통째로 붉게 물들인다.', detail: "항구가 통째로 내려다보이는 코너 창. 서류 위의 회칼과 반쯤 깎인 사과, 벽의 오래된 항만 지도 — 광대 모드가 벗겨지는 방." }
+      ]},
+      { name: '한남동 저택', tone: '검은 건축과 오래된 소나무의 대비', items: [
+        { id: 'place-mansion-exterior', name: '저택 외관', file: 'mansion-exterior', air: '밖에서는 아무 소리도 들리지 않는 집.', detail: '높은 석담과 오래된 소나무. 검은 노출 콘크리트와 목재 루버 — 타워의 문법(검정·유리·절제)을 주거로 번역한 집.' },
+        { id: 'place-mansion-living', name: '거실', file: 'mansion-living', air: '완벽하게 정돈되어 사람이 살지 않는 것 같던 — 당신이 오기 전까지는.', detail: '층고 6m, 벽난로, 정원을 면한 통창. 당신이 온 뒤 소품이 하나씩 는다 — 담요, 책, 찻잔 두 개. 거실의 물건 수가 관계의 진행도다.' },
+        { id: 'place-mansion-hallway', name: '복도', file: 'mansion-hallway', air: '발소리마저 삼키는 긴 어둠 — 문들 너머의 기척.', detail: '' },
+        { id: 'place-mansion-study', name: '서재', file: 'mansion-study', air: '종이와 가죽, 위스키의 피트 향. 회장이 아닌 서태건이 존재하는 유일한 방.', detail: '스탠드 하나 — 01시의 방은 그 불빛 반경이 전부다. 위스키 디캔터와 잔 하나(언젠가 둘이 될), 읽다 만 소설.' },
+        { id: 'place-mansion-pool', name: '지하 풀', file: 'mansion-pool', air: '염소 냄새와 물소리뿐. 대사 없는 씬을 위한 공간.', detail: '검은 타일, 수중등만. 물결의 반사광이 천장에서 일렁인다 — 05:30, 아무도 그의 얼굴을 보지 않는 시간.' },
+        { id: 'place-mansion-bedroom', name: '침실', file: 'mansion-bedroom', air: '가장 사적인 어둠 — 잠들지 못하는 남자의 방.', detail: '' },
+        { id: 'place-mansion-guestroom', name: '게스트룸', file: 'mansion-guestroom', air: '당신이 이 집에 와서 처음 머무른 방', detail: '처음엔 호텔처럼 무개성한 방. 문은 밖에서 잠기지 않는다 — 처음부터. 그 사실을 언제 알아채는가가 연출 포인트.' }
+      ]}
+    ];
+    this._d = { FAC, REL, CHARS, NODES, EDGES, ZONES };
+    return this._d;
+  }
+
+  renderVals() {
+    const { FAC, REL, CHARS, NODES, EDGES, ZONES } = this.data();
+    const st = this.state;
+    const bomb = this.props.bombHighlight ?? true;
+    const tint = this.props.factionTint ?? true;
+
+    const tabBase = { flex: 1, padding: '8px 2px', fontFamily: 'inherit', fontSize: '12px', fontWeight: 600, borderRadius: 0, cursor: 'pointer', letterSpacing: '.01em', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' };
+    const TAB_ICON = { hy: 'symbol-heukyahoe', sg: 'symbol-sagum', night: 'symbol-yayeon', law: 'symbol-police' };
+    const tabs = [['hy', '흑야회'], ['sg', '사검파'], ['night', '밤의 세계'], ['law', '검경·정계']].map(([id, label]) => ({
+      label,
+      iconStyle: { height: '20px', width: '20px', backgroundImage: 'url(assets/logos/' + TAB_ICON[id] + '.png)', backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center', filter: 'invert(1)', mixBlendMode: 'screen', opacity: 0.92 },
+      onClick: () => this.setState({ tab: id, sel: null }),
+      style: st.tab === id
+        ? { ...tabBase, background: 'var(--color-accent-900)', border: '1px solid var(--color-accent-700)', color: 'var(--color-accent-200)' }
+        : { ...tabBase, background: 'transparent', border: '1px solid var(--color-neutral-800)', color: 'var(--color-neutral-400)' }
+    }));
+
+    const cardStyle = (c) => ({
+      background: 'var(--color-neutral-900)',
+      border: '1px solid ' + (tint ? 'color-mix(in srgb, ' + FAC[c.fac].c + ' 26%, var(--color-neutral-800))' : 'var(--color-neutral-800)'),
+      borderRadius: 0, overflow: 'hidden', cursor: 'pointer'
+    });
+    const inTab = CHARS.filter(c => c.fac === st.tab);
+    const decorate = c => ({ ...c, onClick: () => this.setState({ sel: c.id }), cardStyle: cardStyle(c) });
+    const mains = inTab.filter(c => c.main).map(decorate);
+    const subs = inTab.filter(c => !c.main).map(decorate);
+
+    const m = CHARS.find(c => c.id === st.sel) || {};
+
+    const sn = st.node;
+    const touching = id => EDGES.filter(e => e[0] === id || e[1] === id);
+    const connected = sn ? new Set(touching(sn).flatMap(e => [e[0], e[1]])) : null;
+
+    const R = id => id === 'u' ? 25 : 20;
+    const edges = EDGES.map((e, i) => {
+      const [a, b, ty, , bm] = e;
+      const A = NODES[a], B = NODES[b];
+      const isSel = st.edge === i;
+      const clickable = !!sn && (a === sn || b === sn);
+      const active = isSel || (!sn || a === sn || b === sn);
+      const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy) || 1;
+      const ux = dx / len, uy = dy / len;
+      const pad = ty === 'h' || ty === 's' ? 4 : 1;
+      const x1 = A.x + ux * (R(a) + (ty === 'h' ? pad : 1)), y1 = A.y + uy * (R(a) + (ty === 'h' ? pad : 1));
+      const x2 = B.x - ux * (R(b) + pad), y2 = B.y - uy * (R(b) + pad);
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2;
+      let ang = Math.atan2(dy, dx) * 180 / Math.PI;
+      if (ang > 90 || ang < -90) ang += 180;
+      const touchesU = a === 'u' || b === 'u';
+      const o = isSel ? 1 : (active ? (sn ? 0.95 : (touchesU && bomb ? 0.9 : 0.22)) : 0.05);
+      return {
+        onClick: clickable ? () => this.setState(s => ({ edge: s.edge === i ? null : i })) : undefined,
+        hitStyle: { cursor: clickable ? 'pointer' : 'default', pointerEvents: clickable ? 'stroke' : 'none' },
+        labelEl: React.createElement('text', {
+          x: mx, y: my - 6.5, textAnchor: 'middle', fontSize: 8, fontWeight: 600,
+          fill: REL[ty].c, opacity: Math.min(1, o + 0.1),
+          transform: 'rotate(' + ang.toFixed(1) + ' ' + mx.toFixed(1) + ' ' + my.toFixed(1) + ')',
+          style: { pointerEvents: 'none', fontFamily: 'inherit' }
+        }, REL[ty].label),
+        d: 'M ' + x1.toFixed(1) + ' ' + y1.toFixed(1) + ' L ' + x2.toFixed(1) + ' ' + y2.toFixed(1),
+        color: REL[ty].c,
+        w: isSel ? 2.8 : (touchesU ? 2.2 : 1.4),
+        dash: ty === 'x' ? '4 11' : 'none',
+        ms: ty === 'h' ? 'url(#arr-h)' : undefined,
+        me: ty === 'h' ? 'url(#arr-h)' : (ty === 's' ? 'url(#arr-s)' : undefined),
+        o
+      };
+    });
+
+    const nodes = Object.entries(NODES).map(([id, v]) => {
+      const isU = id === 'u';
+      const selMe = sn === id;
+      const selE = st.edge != null ? EDGES[st.edge] : null;
+      const onSelEdge = selE && (selE[0] === id || selE[1] === id);
+      const dim = sn && !selMe && !onSelEdge && !(connected && connected.has(id));
+      return {
+        x: v.x, y: v.y, ty: v.y + (isU ? 4 : 3.8),
+        r: isU ? 25 : 20,
+        fs: isU ? 12 : 10.5,
+        fill: selMe ? 'var(--color-accent-900)' : 'var(--color-bg)',
+        ring: isU ? 'var(--color-accent)' : FAC[v.f].c,
+        sw: selMe ? 2.6 : (isU ? 2 : 1.3),
+        labelEl: React.createElement('text', {
+          x: v.x, y: v.y + (isU ? 4 : 3.8), textAnchor: 'middle',
+          fontSize: isU ? 12 : 10.5, fontWeight: 600,
+          fill: dim ? 'var(--color-neutral-600)' : (isU ? 'var(--color-accent-200)' : 'var(--color-neutral-200)'),
+          style: { pointerEvents: 'none', fontFamily: 'inherit' }
+        }, v.n),
+        o: dim ? 0.3 : 1,
+        onClick: () => this.setState({ node: selMe ? null : id, edge: null })
+      };
+    });
+
+    const nameOf = id => NODES[id].n;
+    const selEdge = st.edge != null ? EDGES[st.edge] : null;
+    const relList = (selEdge ? [selEdge] : []).map(e => {
+      const [a, b, ty, desc] = e;
+      return {
+        pair: nameOf(a) + ' → ' + nameOf(b),
+        typeLabel: REL[ty].label,
+        typeStyle: { fontSize: '10.5px', fontWeight: 600, color: REL[ty].c, marginLeft: '7px' },
+        desc,
+        dot: { width: '8px', height: '8px', borderRadius: '50%', background: REL[ty].c, flex: 'none', marginTop: '5px' }
+      };
+    });
+
+    return {
+      tabs, mains, subs, m, hasSel: !!st.sel, mImg: m ? m.img + '-detail' : 'none', mSrc: m ? (m.src2 || m.src || '') : '',
+      showPageArrow: !st.atEnd && !st.sel,
+      closeChar: () => this.setState({ sel: null }),
+      stop: (ev) => ev.stopPropagation(),
+      edges, nodes, relList,
+      hasNode: !!sn || st.edge != null,
+      relTitle: selEdge ? nameOf(selEdge[0]) + ' → ' + nameOf(selEdge[1]) : (sn ? nameOf(sn) + '의 관계 — 하이라이트된 선을 탭하면 설명이 표시됩니다' : '인물을 탭한 뒤, 하이라이트된 선을 탭하면 설명이 표시됩니다'),
+      resetNode: () => this.setState({ node: null, edge: null }),
+      hardOpen: st.hardOpen,
+      userNotes: this.userNotes(),
+      toastVisible: !!st.toast,
+      pageHome: st.page === 'home', pageStory: st.page === 'story', pagePower: st.page === 'power',
+      pageChars: st.page === 'chars', pageRel: st.page === 'rel', pageYou: st.page === 'you', pagePlaces: st.page === 'places',
+      notHome: st.page !== 'home',
+      goHome: () => this.goPage('home'),
+      menuOpen: !!st.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      goHomeMenu: () => { this.goPage('home'); this.setState({ menuOpen: false }); },
+      homeMenuStyle: this.menuItemStyle(st.page === 'home'),
+      navItems: [['story', '흑야 서사', '서사', 'ph ph-book-open'], ['power', '권력 구도', '구도', 'ph ph-crown-simple'], ['chars', '등장 인물', '인물', 'ph ph-users-three'], ['rel', '관계도', '관계', 'ph ph-share-network'], ['you', '당신의 역할', '당신', 'ph ph-user-circle'], ['places', '흑야 속 공간', '공간', 'ph ph-buildings']].map(([id, label, short, icon]) => ({
+        label, short, icon,
+        desk: this.deskLinkStyle(st.page === id),
+        go: () => this.goPage(id),
+        goMenu: () => { this.goPage(id); this.setState({ menuOpen: false }); },
+        menuStyle: this.menuItemStyle(st.page === id)
+      })),
+      zones: ZONES.map((z, i) => { const r = this.rail(i); return { ...z, railRef: r.ref, drag: r.down, next: r.next, items: z.items.map(p => ({ ...p, ph: p.name + ' (4:3) — assets/places/' + p.file + '.png', open: () => this.setState({ placeOpen: { id: p.id, name: p.name, file: p.file, ph: p.name + ' — assets/places/' + p.file + '.png' } }) })) }; }),
+      placeOpen: !!st.placeOpen,
+      placeHi: st.placeOpen ? (this.HI[st.placeOpen.file] || '') : '',
+      placeHiStyle: st.placeOpen && this.HI[st.placeOpen.file] ? { position: 'absolute', inset: 0, backgroundImage: 'url("' + this.HI[st.placeOpen.file] + '")', backgroundSize: 'cover', backgroundPosition: 'center' } : {},
+      placeNoHi: !!st.placeOpen && !this.HI[st.placeOpen.file],
+      placeImgId: st.placeOpen ? st.placeOpen.id : 'none',
+      placeName: st.placeOpen ? st.placeOpen.name : '',
+      placePh: st.placeOpen ? st.placeOpen.ph : '',
+      closePlace: () => this.setState({ placeOpen: null }),
+      modalRef: this.modalRef || (this.modalRef = React.createRef()),
+      modalToEnd: () => { const el = this.modalRef && this.modalRef.current; if (el) el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
