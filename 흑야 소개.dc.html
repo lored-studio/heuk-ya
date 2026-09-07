@@ -119,6 +119,228 @@
       </div>
     </div>
   </header>
+  <section id="deungdae" class="px" style="padding:8px 20px 34px;max-width:768px">
+    <div style="background:linear-gradient(160deg, var(--color-neutral-900), var(--color-surface));border:1px solid var(--color-neutral-800);border-radius:var(--radius-md, 8px);padding:22px 20px;display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;gap:14px">
+        <img src="uploads/img_app-icon_deungdae.png" alt="등대 앱 아이콘" style="width:64px;height:64px;border-radius:14px;flex:none;box-shadow:0 0 0 1px rgba(255,200,61,.25), 0 0 24px rgba(255,138,0,.18)">
+        <div>
+          <div style="font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:600;letter-spacing:.22em;color:#FFC83D">APP · 등대</div>
+          <h2 style="font-size:23px;margin:4px 0 2px">등대</h2>
+          <div style="font-size:12.5px;color:var(--color-neutral-500)">잠입 형사와 본부 간의 비밀 연락 앱</div>
+        </div>
+      </div>
+      <ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px">
+        <li style="display:flex;gap:9px;font-size:13.5px;line-height:1.55;color:var(--color-neutral-300)"><i class="ph ph-storefront" style="font-size:16px;color:#FFC83D;flex:none;margin-top:2px"></i>중고 거래 앱으로 위장</li>
+        <li style="display:flex;gap:9px;font-size:13.5px;line-height:1.55;color:var(--color-neutral-300)"><i class="ph ph-key" style="font-size:16px;color:#FFC83D;flex:none;margin-top:2px"></i>암호를 통해 소통</li>
+        <li style="display:flex;gap:9px;font-size:13.5px;line-height:1.55;color:var(--color-neutral-300)"><i class="ph ph-paper-plane-tilt" style="font-size:16px;color:#FFC83D;flex:none;margin-top:2px"></i>중고 거래 판매글을 올린 ID로 DM을 보내면 증거가 제출됨</li>
+      </ul>
+      <button class="btn" onClick="{{ goDeungdae }}" style="justify-content:center;border:1px solid #FF8A00;color:#FFC83D;background:rgba(255,138,0,.08);cursor:pointer;width:100%" style-hover="background:rgba(255,138,0,.16)"><i class="ph ph-lighthouse" style="font-size:16px"></i>앱 보러 가기</button>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ pageDeungdae }}" hint-placeholder-val="{{ false }}">
+  <section id="deungdae-app" class="px" style="padding:20px 20px 40px;max-width:480px;margin:0 auto">
+    <button onClick="{{ goHome }}" style="background:none;border:none;color:var(--color-neutral-400);font-size:13px;display:flex;align-items:center;gap:6px;padding:0 0 14px;cursor:pointer" style-hover="color:var(--color-accent-200)"><i class="ph ph-caret-left" style="font-size:15px"></i>흑야 홈으로</button>
+    <div style="position:relative;background:#f4f4f5;border-radius:18px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,138,0,.3), 0 12px 40px rgba(0,0,0,.5);font-family:'Pretendard','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif">
+      <div style="display:flex;align-items:center;gap:10px;padding:14px 14px 10px;background:#f4f4f5">
+        <img src="uploads/img_app-icon_deungdae.png" alt="등대" style="width:30px;height:30px;border-radius:8px;flex:none;cursor:pointer" onClick="{{ appGoFeed }}">
+        <div style="flex:1;display:flex;align-items:center;gap:8px;background:#fff;border:1.5px solid #FFC83D;border-radius:999px;padding:8px 14px;color:#96969d;font-size:13px"><i class="ph ph-magnifying-glass" style="font-size:15px;color:#FF8A00"></i>검색</div>
+        <button onClick="{{ appGoDm }}" aria-label="DM" style="background:none;border:none;padding:2px;cursor:pointer;display:flex"><i class="ph ph-chat-circle-dots" style="font-size:22px;color:{{ dmIconColor }}"></i></button>
+        <button onClick="{{ appGoProfile }}" aria-label="내 프로필" style="background:none;border:none;padding:2px;cursor:pointer;display:flex"><i class="ph ph-user-circle" style="font-size:24px;color:{{ profileIconColor }}"></i></button>
+      </div>
+      <sc-if value="{{ appFeed }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:12px;padding:12px 14px 20px">
+        <sc-for list="{{ deungdaeItems }}" as="it" hint-placeholder-count="8">
+          <div onClick="{{ it.open }}" style="display:flex;gap:12px;background:{{ it.cardBg }};border-radius:14px;padding:10px;border:1.5px solid {{ it.borderColor }};cursor:pointer">
+            <div style="position:relative;width:104px;height:104px;flex:none;border-radius:11px;overflow:hidden;background:#ececee">
+              <sc-if value="{{ it.thumb }}" hint-placeholder-val="{{ false }}">
+                <img src="{{ it.thumb }}" alt="{{ it.title }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+              </sc-if>
+              <sc-if value="{{ it.noThumb }}" hint-placeholder-val="{{ true }}">
+                <image-slot id="{{ it.slotId }}" shape="rect" placeholder="{{ it.title }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+              </sc-if>
+            </div>
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:4px;justify-content:center">
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                <sc-if value="{{ it.badge }}" hint-placeholder-val="{{ false }}">
+                  <span style="flex:none;font-size:9.5px;font-weight:800;letter-spacing:.06em;color:#fff;background:{{ it.badgeBg }};border-radius:999px;padding:2.5px 8px">{{ it.badge }}</span>
+                </sc-if>
+                <span style="font-size:13.5px;font-weight:600;color:#2f2f34;line-height:1.35">{{ it.title }}</span>
+              </div>
+              <div style="font-size:14.5px;font-weight:800;color:#2f2f34">{{ it.price }}</div>
+              <div style="font-size:11px;color:#737379;display:flex;align-items:center;gap:4px"><i class="ph ph-map-pin" style="font-size:12px;color:#FF8A00"></i>{{ it.region }}</div>
+              <div style="font-size:11.5px;font-weight:600;color:{{ it.dueColor }};display:flex;align-items:center;gap:4px"><i class="ph ph-calendar-blank" style="font-size:13px"></i>{{ it.due }}</div>
+              <div style="display:flex;align-items:center;gap:10px;font-size:11px;color:#737379">
+                <span style="display:flex;align-items:center;gap:3px"><i class="ph ph-heart" style="font-size:12px;color:#FF8A00"></i>{{ it.likes }}</span>
+                <span style="display:flex;align-items:center;gap:3px"><i class="ph ph-chat-circle" style="font-size:12px;color:#FF8A00"></i>{{ it.dm }}</span>
+                <span style="display:flex;align-items:center;gap:3px;color:#96969d"><i class="ph ph-user" style="font-size:12px"></i>{{ it.nick }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+        <button onClick="{{ openWrite }}" aria-label="새 글 쓰기" style="position:sticky;bottom:18px;align-self:flex-end;width:52px;height:52px;border-radius:50%;border:none;background:#FF8A00;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 14px rgba(255,138,0,.45)"><i class="ph ph-plus" style="font-size:24px"></i></button>
+      </div>
+      <sc-if value="{{ writeOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeWrite }}" style="position:absolute;inset:0;background:rgba(20,20,24,.55);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:120px 24px 24px">
+          <div onClick="{{ stop }}" style="background:#fff;border-radius:16px;padding:22px 20px;width:100%;max-width:320px;display:flex;flex-direction:column;gap:14px;text-align:center">
+            <i class="ph ph-lock-key" style="font-size:34px;color:#FF8A00;align-self:center"></i>
+            <div style="font-size:13.5px;line-height:1.6;color:#2f2f34;font-weight:600">판매글 작성은 인증된 회원부터 가능합니다.</div>
+            <div style="display:flex;gap:8px">
+              <button onClick="{{ closeWrite }}" style="flex:1;background:#FF8A00;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit">확인</button>
+              <button onClick="{{ closeWrite }}" style="flex:1;background:#f4f4f5;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:600;color:#4b4b52;cursor:pointer;font-family:inherit">뒤로</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      </sc-if>
+      <sc-if value="{{ appDetail }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:10px 14px 22px;display:flex;flex-direction:column;gap:12px">
+        <button onClick="{{ appGoFeed }}" style="background:none;border:none;color:#FF8A00;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;padding:0;cursor:pointer;font-family:inherit"><i class="ph ph-caret-left" style="font-size:14px"></i>목록으로</button>
+        <sc-if value="{{ detailHasPhotos }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <img src="{{ detailMain }}" alt="{{ detailTitle }}" style="width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:14px;display:block">
+            <div style="display:flex;gap:7px;flex-wrap:wrap">
+              <sc-for list="{{ detailPhotos }}" as="p" hint-placeholder-count="5">
+                <img src="{{ p.src }}" alt="상세 사진" onClick="{{ p.pick }}" style="width:52px;height:52px;object-fit:cover;border-radius:9px;cursor:pointer;border:2px solid {{ p.border }};display:block">
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ detailNoPhotos }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;width:100%;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:#ececee">
+            <image-slot id="{{ detailSlotId }}" shape="rect" placeholder="{{ detailTitle }}" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="font-size:17px;font-weight:700;color:#2f2f34;line-height:1.35">{{ detailTitle }}</div>
+          <div style="font-size:19px;font-weight:800;color:#2f2f34">{{ detailPrice }}</div>
+          <div><span style="display:inline-block;font-size:11px;font-weight:600;color:#FF8A00;background:#fff;border:1px solid #FFC83D;border-radius:999px;padding:3px 10px">{{ detailCategory }}</span></div>
+          <div style="display:flex;align-items:center;gap:10px;font-size:11.5px;color:#737379;flex-wrap:wrap;margin-top:2px">
+            <span style="display:flex;align-items:center;gap:3px"><i class="ph ph-user" style="font-size:13px;color:#FF8A00"></i>{{ detailNick }}</span>
+            <span style="display:flex;align-items:center;gap:3px"><i class="ph ph-map-pin" style="font-size:13px;color:#FF8A00"></i>{{ detailRegion }}</span>
+            <span style="display:flex;align-items:center;gap:3px"><i class="ph ph-calendar-blank" style="font-size:13px;color:#FF8A00"></i>{{ detailDue }}</span>
+            <span style="display:flex;align-items:center;gap:3px"><i class="ph ph-heart" style="font-size:13px;color:#FF8A00"></i>{{ detailLikes }}</span>
+            <span style="display:flex;align-items:center;gap:3px"><i class="ph ph-chat-circle" style="font-size:13px;color:#FF8A00"></i>{{ detailDm }}</span>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:13px;padding:14px;font-size:13px;line-height:1.65;color:#4b4b52;white-space:pre-line">{{ detailDesc }}</div>
+        <div style="display:flex;gap:8px">
+          <button onClick="{{ toggleLike }}" aria-label="좋아요" style="flex:none;width:48px;border-radius:12px;border:1.5px solid #FF8A00;background:{{ likeBg }};color:{{ likeColor }};display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0"><i class="ph ph-heart" style="font-size:19px"></i></button>
+          <button onClick="{{ dmStart }}" style="flex:1;background:#FF8A00;border:none;color:#fff;font-size:14px;font-weight:700;border-radius:12px;padding:13px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:7px"><i class="ph ph-chat-circle-dots" style="font-size:17px"></i>DM 보내기</button>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ appChat }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:10px 14px 16px;display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ appGoDm }}" style="background:none;border:none;color:#FF8A00;font-size:12.5px;font-weight:600;display:flex;align-items:center;gap:5px;padding:0;cursor:pointer;font-family:inherit;align-self:flex-start"><i class="ph ph-caret-left" style="font-size:14px"></i>DM 목록</button>
+        <div onClick="{{ chatGoItem }}" style="display:flex;align-items:center;gap:10px;background:#fff;border-radius:12px;padding:10px 12px;cursor:pointer" style-hover="background:#fdf3e7">
+          <i class="{{ chatIcon }}" style="font-size:24px;color:#FFC83D;flex:none"></i>
+          <div style="min-width:0">
+            <div style="font-size:13px;font-weight:700;color:#2f2f34">{{ chatNick }}</div>
+            <div style="font-size:10.5px;color:#96969d;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ chatItem }}</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;padding:4px 0 2px">
+          <sc-for list="{{ chatMsgs }}" as="m" hint-placeholder-count="6">
+            <div style="display:flex;justify-content:{{ m.justify }}">
+              <div style="max-width:78%;padding:8px 12px;border-radius:13px;font-size:12.5px;line-height:1.55;background:{{ m.bg }};color:{{ m.color }}">{{ m.text }}</div>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ chatFileName }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;align-items:center;gap:6px;align-self:flex-start;background:#fff;border:1px solid #FFC83D;border-radius:999px;padding:5px 10px;font-size:11px;color:#4b4b52">
+            <i class="ph ph-paperclip" style="font-size:13px;color:#FF8A00"></i>{{ chatFileName }}
+            <button onClick="{{ chatFileClear }}" style="background:none;border:none;padding:0;cursor:pointer;display:flex"><i class="ph ph-x" style="font-size:12px;color:#96969d"></i></button>
+          </div>
+        </sc-if>
+        <div style="display:flex;gap:7px;align-items:center;background:#fff;border-radius:999px;padding:7px 8px 7px 8px">
+          <label style="flex:none;width:28px;height:28px;border-radius:50%;background:#f4f4f5;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ph ph-plus" style="font-size:15px;color:#FF8A00"></i><input type="file" onChange="{{ chatOnFile }}" style="display:none"></label>
+          <input ref="{{ chatInputRef }}" onInput="{{ chatOnInput }}" onKeyDown="{{ nickStopKeys }}" onKeyUp="{{ nickStopKeys }}" placeholder="메시지 입력" style="flex:1;min-width:0;border:none;outline:none;background:transparent;font-size:12.5px;color:#2f2f34;font-family:inherit;padding-left:5px">
+          <button onClick="{{ chatSend }}" aria-label="보내기" style="flex:none;width:28px;height:28px;border-radius:50%;border:none;background:{{ chatSendBg }};display:flex;align-items:center;justify-content:center;cursor:{{ chatSendCursor }};padding:0"><i class="ph ph-paper-plane-right" style="font-size:14px;color:#fff"></i></button>
+        </div>
+      </div>
+      </sc-if>
+      <sc-if value="{{ appProfile }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:16px 14px 20px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;align-items:center;gap:12px;background:#fff;border-radius:14px;padding:14px">
+          <i class="ph ph-user-circle" style="font-size:44px;color:#FFC83D"></i>
+          <div style="flex:1">
+            <div style="font-size:15.5px;font-weight:700;color:#2f2f34">{{ appNick }}</div>
+            <div style="font-size:11px;color:#96969d">등대 회원</div>
+          </div>
+          <button onClick="{{ openNickModal }}" style="background:none;border:1.5px solid #FFC83D;color:#FF8A00;border-radius:999px;padding:6px 12px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit">닉네임 수정</button>
+        </div>
+        <div style="background:#fff;border-radius:14px;overflow:hidden">
+          <div onClick="{{ toggleWish }}" style="display:flex;align-items:center;gap:10px;padding:14px;border-bottom:1px solid #f4f4f5;font-size:13.5px;font-weight:600;color:#2f2f34;cursor:pointer"><i class="ph ph-heart" style="font-size:18px;color:#FF8A00"></i>관심 목록<span style="margin-left:auto;font-size:11.5px;color:#96969d;font-weight:400">좋아요 누른 게시물 2</span><i class="{{ wishCaret }}" style="font-size:13px;color:#FFC83D"></i></div>
+          <sc-if value="{{ wishOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="border-bottom:1px solid #f4f4f5;background:#fafafa">
+              <sc-for list="{{ wishItems }}" as="w" hint-placeholder-count="2">
+                <div onClick="{{ w.open }}" style="display:flex;align-items:center;gap:9px;padding:11px 14px 11px 42px;font-size:12.5px;color:#4b4b52;cursor:pointer" style-hover="color:#FF8A00">
+                  <i class="ph ph-heart-straight-fill" style="font-size:12px;color:#FF8A00;flex:none"></i>
+                  <span style="flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ w.title }}</span>
+                  <span style="font-size:11px;color:#96969d;flex:none">{{ w.price }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+          <div style="display:flex;align-items:center;gap:10px;padding:14px;border-bottom:1px solid #f4f4f5;font-size:13.5px;font-weight:600;color:#2f2f34;cursor:pointer"><i class="ph ph-note-pencil" style="font-size:18px;color:#FF8A00"></i>내가 올린 글<span style="margin-left:auto;font-size:11.5px;color:#96969d;font-weight:400">0</span><i class="ph ph-caret-right" style="font-size:13px;color:#FFC83D"></i></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:14px;font-size:13.5px;font-weight:600;color:#2f2f34"><i class="ph ph-bell" style="font-size:18px;color:#FF8A00"></i>알림 설정
+            <button onClick="{{ toggleNotif }}" aria-label="알림 설정" style="margin-left:auto;width:44px;height:24px;border-radius:999px;border:none;cursor:pointer;position:relative;background:{{ notifBg }};transition:background .2s">
+              <span style="position:absolute;top:3px;left:{{ notifKnobLeft }};width:18px;height:18px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)"></span>
+            </button>
+          </div>
+        </div>
+        <button onClick="{{ openWithdraw }}" style="background:none;border:none;color:#96969d;font-size:12px;text-decoration:underline;cursor:pointer;margin-top:14px;align-self:center;font-family:inherit">회원 탈퇴하기</button>
+      </div>
+      <sc-if value="{{ nickModalOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeNickModal }}" style="position:absolute;inset:0;background:rgba(20,20,24,.55);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:80px 24px 24px">
+          <div onClick="{{ stop }}" style="background:#fff;border-radius:16px;padding:20px;width:100%;max-width:320px;display:flex;flex-direction:column;gap:14px">
+            <div style="font-size:15px;font-weight:700;color:#2f2f34">닉네임 수정</div>
+            <div style="display:flex;gap:7px">
+              <input ref="{{ nickInputRef }}" defaultValue="{{ nickDraft }}" onKeyDown="{{ nickStopKeys }}" onKeyUp="{{ nickStopKeys }}" onKeyPress="{{ nickStopKeys }}" placeholder="새 닉네임 입력" style="flex:1;min-width:0;border:1.5px solid #FFC83D;border-radius:10px;padding:10px 12px;font-size:13.5px;color:#2f2f34;outline:none;font-family:inherit;box-sizing:border-box">
+              <button onClick="{{ randomNick }}" title="랜덤 생성" style="flex:none;background:#f4f4f5;border:none;border-radius:10px;padding:0 12px;font-size:16px;color:#FF8A00;cursor:pointer;display:flex;align-items:center"><i class="ph ph-shuffle"></i></button>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button onClick="{{ closeNickModal }}" style="flex:1;background:#f4f4f5;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:600;color:#4b4b52;cursor:pointer;font-family:inherit">닫기</button>
+              <button onClick="{{ confirmNick }}" style="flex:1;background:#FF8A00;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit">확인</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ withdrawOpen }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ closeWithdraw }}" style="position:absolute;inset:0;background:rgba(20,20,24,.55);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:80px 24px 24px">
+          <div onClick="{{ stop }}" style="background:#fff;border-radius:16px;padding:22px 20px;width:100%;max-width:320px;display:flex;flex-direction:column;gap:14px;text-align:center">
+            <i class="ph ph-warning-circle" style="font-size:34px;color:#FF8A00;align-self:center"></i>
+            <div style="font-size:13.5px;line-height:1.6;color:#2f2f34;font-weight:600">탈퇴 후 재가입이 불가합니다.<br>정말 탈퇴하시겠습니까?</div>
+            <div style="display:flex;gap:8px">
+              <button onClick="{{ closeWithdraw }}" style="flex:1;background:#f4f4f5;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:600;color:#4b4b52;cursor:pointer;font-family:inherit">취소</button>
+              <button onClick="{{ closeWithdraw }}" style="flex:1;background:#FF8A00;border:none;border-radius:10px;padding:10px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:inherit">탈퇴하기</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+      </sc-if>
+      <sc-if value="{{ appDm }}" hint-placeholder-val="{{ false }}">
+      <div style="padding:12px 14px 20px;display:flex;flex-direction:column;gap:8px">
+        <div style="font-size:14px;font-weight:700;color:#2f2f34;padding:2px 2px 4px">DM</div>
+        <sc-for list="{{ deungdaeDms }}" as="d" hint-placeholder-count="5">
+          <div onClick="{{ d.open }}" style="display:flex;align-items:center;gap:11px;background:#fff;border-radius:13px;padding:11px 12px;cursor:pointer">
+            <i class="{{ d.icon }}" style="font-size:26px;color:#FFC83D;flex:none"></i>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:baseline;gap:6px">
+                <span style="font-size:12.5px;font-weight:700;color:#2f2f34">{{ d.nick }}</span>
+                <span style="font-size:10px;color:#a8a8af">{{ d.item }}</span>
+              </div>
+              <div style="font-size:11.5px;color:#737379;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ d.last }}</div>
+            </div>
+            <span style="font-size:10px;color:#a8a8af;flex:none">{{ d.time }}</span>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+    </div>
+  </section>
   </sc-if>
 
   <sc-if value="{{ pageStory }}" hint-placeholder-val="{{ false }}">
@@ -687,6 +909,59 @@ class Component extends DCLogic {
     'mansion-bedroom': 'uploads/mansion-bedroom.png',
     'mansion-guestroom': 'uploads/mansion-guestroom.png'
   };
+  rawItems() {
+    return [
+      ['[아이패드/중고] 상태 좋아요', '상시', '서울 혜화역 부근', 18, 7, '느긋한 수달', 4, '119만원', 'BEST'],
+      ['헬스장 3회 양도', '3일 남음', '서울 서초구', 12, 5, '활발한 사자', 1, '20만원'],
+      ['서초] 텀블러 직거래 희망', '상시', '서울 교대역 부근', 4, 2, '냉소적인 까치', 2, '6천원'],
+      ['에어팟 미개봉 새상품', '5일 남음', '하남 감일동', 31, 9, '조용한 돌고래', 3, '15만 9천원', 'NEW'],
+      ['캠핑 랜턴 2회 사용', '7일 남음', '인천 만석동', 7, 3, '신중한 부엉이', 5, '5만원'],
+      ['원목 협탁 나눔', '상시', '서울 마포구', 26, 11, '다정한 고슴도치', 6, '무료'],
+      ['필름 카메라 작동 확인', '2일 남음', '서울 서초구', 15, 6, '냉소적인 까치', 7, '12만원'],
+      ['커피 머신 풀박스', '상시', '서울 교대역 부근', 9, 4, '활발한 사자', 8, '3만원']
+    ];
+  }
+  itemMeta() {
+    return {
+      '[아이패드/중고] 상태 좋아요': { cat: '디지털 기기', photos: [1,2,3,4,5].map(n => 'uploads/img_ipad' + n + '.png'), desc: '구매한 매장가서 배터리 포함 전체 진단 받아보았고, 배터리 성능 100%에 풀사이클(16)이라고 합니다. 다른 기능들도 매우매우 양호한 상황이라고 확인 받았습니다. 박스와 사용설명서도 그대로 전달드릴 예정입니다. 기스,흠집,얼룩 전혀 없어서 사진에서 보시듯 액정은 거의 거울이고 기기 뒷면 또한 커버 벗겨도 흠집난 곳 전혀 없습니다.' },
+      '헬스장 3회 양도': { cat: '티켓/이용권', photos: ['uploads/img_gym.png'], desc: '개인 사정으로 못 가게 되어 일반 이용권 3회분 양도합니다. 프런트에서 이름 변경만 하면 되어 절차 간단합니다. 유효기간 충분히 남아 있습니다.' },
+      '서초] 텀블러 직거래 희망': { cat: '생활/주방', photos: [1,2,3,4,5,6,7,8,9].map(n => 'uploads/tumbler_angle_0' + n + '.png'), desc: '선물 받고 한 번도 사용하지 않은 스테인리스 텀블러입니다. 각인 없고 구성품 전부 있습니다. 교대역 부근 직거래 희망합니다.' },
+      '에어팟 미개봉 새상품': { cat: '디지털 기기', photos: [1,2,3].map(n => 'uploads/img_airpod' + n + '.png'), desc: '미개봉 새상품입니다. 정품 등록되어 있지 않고 영수증 지참 가능합니다. 단순 변심으로 판매합니다.' },
+      '캠핑 랜턴 2회 사용': { cat: '스포츠/레저', photos: ['uploads/img_lanton1.png', 'uploads/img_lanton2.png'], desc: '두 번 사용한 캠핑 랜턴입니다. 생활 기스 없고 밝기·배터리 사용시간 모두 정상입니다. 박스 포함해서 드립니다.' },
+      '원목 협탁 나눔': { cat: '가구/인테리어', photos: [1,2,3,4,5,6,7,8,9].map(n => 'uploads/wood_nightstand_scene_0' + n + '.png'), desc: '이사하게 되어 나눔합니다. 상판에 옅은 자국 하나 있는 것 외에 상태 좋습니다. 직접 가져가실 수 있는 분만 연락 주세요.' },
+      '필름 카메라 작동 확인': { cat: '취미/수집', photos: ['uploads/img_camera1.png', 'uploads/img_camera2.png'], desc: '작동 확인 완료했습니다. 셔터, 필름 이송 모두 정상이고 테스트 롤 결과물 보여드릴 수 있습니다. 스트랩 포함.' },
+      '커피 머신 풀박스': { cat: '생활/가전', photos: [1,2,3,4,5,6,7,8,9].map(n => 'uploads/coffee_machine_0' + n + '.png'), desc: '풀박스 구성 그대로 있습니다. 내부 세척 완료했고 캡슐 몇 개 함께 드립니다. 잘 쓰다가 업그레이드하면서 판매합니다.' }
+    };
+  }
+  detailVals(st) {
+    const META = this.itemMeta();
+    const it = st.detailItem;
+    if (st.appView !== 'detail' || !it) return { appDetail: false, detailHasPhotos: false, detailNoPhotos: false, detailPhotos: [], detailMain: '', detailSlotId: 'deungdae-detail-none', detailTitle: '', detailPrice: '', detailCategory: '', detailDesc: '', detailNick: '', detailRegion: '', detailDue: '', detailLikes: '', detailDm: '', dmStart: () => {}, toggleLike: () => {}, likeBg: '#fff', likeColor: '#FF8A00' };
+    const m = META[it.title] || { cat: '기타', desc: '' };
+    const photos = m.photos || null;
+    const cur = Math.min(st.detailPhoto || 0, photos ? photos.length - 1 : 0);
+    return {
+      appDetail: true,
+      detailHasPhotos: !!photos, detailNoPhotos: !photos,
+      detailMain: photos ? photos[cur] : '',
+      detailPhotos: photos ? photos.map((src, n) => ({ src, border: n === cur ? '#FF8A00' : 'transparent', pick: () => this.setState({ detailPhoto: n }) })) : [],
+      detailSlotId: it.slotId,
+      detailTitle: it.title, detailPrice: it.price, detailCategory: m.cat, detailDesc: m.desc,
+      detailNick: it.nick, detailRegion: it.region, detailDue: it.due,
+      detailLikes: it.likes + (((st.liked || {})[it.title]) ? 1 : 0), detailDm: it.dm,
+      toggleLike: () => this.setState(s => { const l = { ...(s.liked || {}) }; l[it.title] = !l[it.title]; return { liked: l }; }),
+      likeBg: ((st.liked || {})[it.title]) ? '#FF8A00' : '#fff',
+      likeColor: ((st.liked || {})[it.title]) ? '#ffffff' : '#FF8A00',
+      dmStart: () => this.startDm(it)
+    };
+  }
+  startDm(it) {
+    const existing = (this._dmList || []).find(x => x.item === it.title);
+    if (existing) { this.setState({ appView: 'chat', chatDm: existing }); return; }
+    const icons = { '다정한 고슴도치': 'ph ph-leaf', '냉소적인 까치': 'ph ph-bird', '활발한 사자': 'ph ph-cat', '조용한 돌고래': 'ph ph-fish', '느긋한 수달': 'ph ph-paw-print', '신중한 부엉이': 'ph ph-moon' };
+    const d = { nick: it.nick, item: it.title, last: '안녕하세요! 문의 주셔서 감사합니다 :)', time: '방금', icon: icons[it.nick] || 'ph ph-storefront', msgs: [['them', '안녕하세요! 문의 주셔서 감사합니다 :) 편하게 질문 주세요.']] };
+    this.setState(s => ({ customDms: [d, ...(s.customDms || [])], appView: 'chat', chatDm: d }));
+  }
   goPage(id) {
     this.setState({ page: id, sel: null });
     window.scrollTo({ top: 0 });
@@ -901,16 +1176,16 @@ class Component extends DCLogic {
       ['jsu', 'u', 't', '감시이자 보살핌 — 회장의 진심을 번역해 주는 통로.']
     ];
     const ZONES = [
-      { name: '흑영타워', tone: '흑야회의 본거지', items: [
+      { name: '흑영타워', tone: '흑영그룹 본사 건물', items: [
         { id: 'place-tower-exterior-card', name: '흑영타워 외관', file: 'tower-exterior', air: '유리와 검은 강철의 수직선 — 도시 위에 세운 조직의 얼굴.', detail: '' },
         { id: 'place-tower-lobby-1f', name: '1층 로비', file: 'tower-lobby-1f', air: '대리석과 정적 — 기업의 얼굴을 한 조직의 첫인상.', detail: '' },
         { id: 'place-tower-office-42f', name: '42층 회장 집무실', file: 'tower-office-42f', air: '무향에 가까운 방 — 희미한 우드 노트, 사람 냄새를 지운 공간.', detail: '남향 전면 통유리, 서울이 발밑에. 야간엔 책상 스탠드 하나 — 23시의 방은 불빛 반경 2m만 존재한다. 벽면 금고에 열지 않은 봉투.' },
         { id: 'place-tower-strategy-41f', name: '41층 전략실', file: 'tower-strategy-41f', air: '종이 냄새, 키보드 소리조차 절제된 정적.', detail: '파티션 없는 롱테이블과 벽면 전체의 수납. 그림자가 생기지 않는 균질한 백색광 — 유일한 색은 결재판의 빨간 인주.' },
         { id: 'place-tower-clinic-b3', name: '지하 3층 의무실', file: 'tower-clinic-b3', air: '소독약과 홍차 냄새가 섞인다. 새벽마다 젖은 발소리가 들어온다.', detail: '크림 화이트와 스테인리스. 지하인데 병원보다 깨끗하다 — 이 청결함이 오히려 서늘하다. 이름 없는 차트, 잠긴 서랍 하나.' },
-        { id: 'place-tower-hideout-b6', name: "지하 6층 '검은 아지트'", file: 'tower-hideout-b6', air: '콘크리트의 냉기, 담배와 녹 냄새. 환기구의 낮은 웅웅거림.', detail: '버튼에 없는 층. 나트륨등의 호박색 — 테이블 위만 밝고 벽은 어둠에 잠긴다. 얼굴의 절반만 보이는 조명. 당신이 처음 끌려온 곳.' },
-        { id: 'place-sevenport-vip', name: '세븐포트 VIP룸', file: 'sevenport-vip', air: '화려함의 최대치', detail: '진홍 카펫, 크리스털, 그린 펠트. 창이 없는 방 — 시간이 죽는 공간. 이 방 안에서는 금이안이 왕이다.' }
+        { id: 'place-tower-hideout-b6', name: "지하 6층 '검은 아지트'", file: 'tower-hideout-b6', air: '콘크리트의 냉기, 담배와 녹 냄새. 환기구의 낮은 웅웅거림.', detail: '버튼에 없는 층. 나트륨등의 호박색 — 테이블 위만 밝고 벽은 어둠에 잠긴다. 얼굴의 절반만 보이는 조명. 당신이 처음 끌려온 곳.' }
       ]},
       { name: '밤의 세계', tone: '심홍 벨벳 · 샴페인 골드', items: [
+        { id: 'place-sevenport-vip', name: '세븐포트 VIP룸', file: 'sevenport-vip', air: '화려함의 최대치', detail: '진홍 카펫, 크리스털, 그린 펠트. 창이 없는 방 — 시간이 죽는 공간. 이 방 안에서는 금이안이 왕이다.' },
         { id: 'place-b1-bar', name: 'B1 — 호스티스바', file: 'b1-bar', air: '향수와 위스키, 낮은 재즈. 방음문이 닫히는 소리가 이 공간의 마침표.', detail: '심홍 벨벳, 월넛 패널, 놋쇠. 촛불 높이의 점광원 — 거짓말하기 좋은 조도. 룸마다 다른 시그니처 향.' },
         { id: 'place-f1-bar', name: 'F1 — 호스트바', file: 'f1-bar', air: '스파클링과 시트러스 향, 조금 더 높은 웃음소리 — "지하와 지상이 한 몸."', detail: "샴페인 골드와 아이보리, 크리스털 샹들리에. B1이 '숨기는 빛'이라면 F1은 '꾸미는 빛'." }
       ]},
@@ -1055,6 +1330,114 @@ class Component extends DCLogic {
       pageHome: st.page === 'home', pageStory: st.page === 'story', pagePower: st.page === 'power',
       pageChars: st.page === 'chars', pageRel: st.page === 'rel', pageYou: st.page === 'you', pagePlaces: st.page === 'places',
       notHome: st.page !== 'home',
+      pageDeungdae: st.page === 'deungdae',
+      goDeungdae: () => this.goPage('deungdae'),
+      appFeed: (st.appView || 'feed') === 'feed',
+      appProfile: st.appView === 'profile',
+      appDm: st.appView === 'dm',
+      appGoFeed: () => this.setState({ appView: 'feed' }),
+      appGoProfile: () => this.setState({ appView: 'profile' }),
+      appNick: st.appNick || '정의로운 시민',
+      openNickModal: () => this.setState(s => ({ nickModalOpen: true, nickDraft: s.appNick || '정의로운 시민' })),
+      closeNickModal: () => this.setState({ nickModalOpen: false }),
+      nickModalOpen: !!st.nickModalOpen,
+      nickDraft: st.nickDraft ?? '',
+      nickInputRef: (this._nickRef = this._nickRef || React.createRef()),
+      nickStopKeys: (e) => e.stopPropagation(),
+      randomNick: () => {
+        const A = ['정의로운', '용감한', '신중한', '명랑한', '냉철한', '엉뚱한', '고요한', '부지런한', '재빠른', '따뜻한'];
+        const B = ['시민', '호랑이', '고래', '참새', '여우', '너구리', '펭귄', '두더지', '수리부엉이', '살쾡이'];
+        const v = A[Math.floor(Math.random() * A.length)] + ' ' + B[Math.floor(Math.random() * B.length)];
+        if (this._nickRef && this._nickRef.current) this._nickRef.current.value = v;
+        this.setState({ nickDraft: v });
+      },
+      confirmNick: () => {
+        const v = (this._nickRef && this._nickRef.current ? this._nickRef.current.value : '').trim();
+        this.setState(s => ({ appNick: v || s.appNick || '정의로운 시민', nickModalOpen: false }));
+      },
+      wishOpen: !!st.wishOpen,
+      wishCaret: st.wishOpen ? 'ph ph-caret-down' : 'ph ph-caret-right',
+      toggleWish: () => this.setState(s => ({ wishOpen: !s.wishOpen })),
+      wishItems: [
+        { title: '[아이패드/중고] 상태 좋아요', price: '119만원', item: { title: '[아이패드/중고] 상태 좋아요', due: '상시', region: '서울 혜화역 부근', likes: 18, dm: 7, nick: '느긋한 수달', price: '119만원', slotId: 'deungdae-item-4' } },
+        { title: '에어팟 미개봉 새상품', price: '15만 9천원', item: { title: '에어팟 미개봉 새상품', due: '5일 남음', region: '하남 감일동', likes: 31, dm: 9, nick: '조용한 돌고래', price: '15만 9천원', slotId: 'deungdae-item-3' } }
+      ].map(w => ({ ...w, open: () => this.setState({ appView: 'detail', detailItem: w.item, detailPhoto: 0 }) })),
+      withdrawOpen: !!st.withdrawOpen,
+      openWithdraw: () => this.setState({ withdrawOpen: true }),
+      closeWithdraw: () => this.setState({ withdrawOpen: false }),
+      appGoDm: () => this.setState({ appView: 'dm' }),
+      writeOpen: !!st.writeOpen,
+      openWrite: () => this.setState({ writeOpen: true }),
+      closeWrite: () => this.setState({ writeOpen: false }),
+      dmIconColor: st.appView === 'dm' ? '#e05e00' : '#FF8A00',
+      profileIconColor: st.appView === 'profile' ? '#e05e00' : '#FF8A00',
+      toggleNotif: () => this.setState(s => ({ notifOn: !(s.notifOn ?? true) })),
+      notifBg: (st.notifOn ?? true) ? '#FF8A00' : '#d8d8dd',
+      notifKnobLeft: (st.notifOn ?? true) ? '23px' : '3px',
+      deungdaeItems: this.rawItems().map(([title, due, region, likes, dm, nick, slotN, price, badge], i) => ({
+        title, due, region, likes: likes + (((st.liked || {})[title]) ? 1 : 0), dm, nick, price, badge: badge || null,
+        slotId: 'deungdae-item-' + slotN,
+        dueColor: due === '상시' ? '#96969d' : '#FF8A00',
+        badgeBg: badge === 'BEST' ? '#FF8A00' : '#e0a400',
+        borderColor: badge === 'BEST' ? '#FF8A00' : 'transparent',
+        cardBg: badge === 'BEST' ? '#ffffff' : '#fff',
+        thumb: ((this.itemMeta()[title] || {}).photos || [])[0] || null,
+        noThumb: !((this.itemMeta()[title] || {}).photos || [])[0],
+        open: function() { this.setState({ appView: 'detail', detailItem: { title, due, region, likes, dm, nick, price, slotId: 'deungdae-item-' + slotN }, detailPhoto: 0 }); }.bind(this)
+      })),
+      ...this.detailVals(st),
+      deungdaeDms: (this._dmList = [...(st.customDms || []),
+        { nick: '냉소적인 까치', item: '서초] 텀블러 직거래 희망', last: '제가 오늘 바빠서 오늘 밤 12시에 제가 연락드릴게요!', time: '10분 전', icon: 'ph ph-bird',
+          msgs: [['me', '안녕하세요, 텀블러 아직 판매 중인가요?'], ['them', '네, 새 상품 그대로 있습니다.'], ['me', '선물 받으신 거라고 적혀있던데 박스도 있나요?'], ['them', '네, 박스랑 구성품 전부 그대로 있습니다.'], ['me', '보온은 몇 시간 정도 가나요?'], ['them', '스텐 이중 진공이라 6시간 이상 갑니다.'], ['me', '색상이 사진이랑 실물이 많이 다를까요?'], ['them', '사진 그대로입니다. 형광등 아래서 찍었습니다.'], ['me', '알겠습니다. 서초 쪽에서 직거래 가능하실까요?'], ['them', '교대역 부근이면 가능합니다.'], ['me', '좋습니다. 시간은 언제가 괜찮으세요?'], ['them', '제가 오늘 바빠서 오늘 밤 12시에 제가 연락드릴게요!']] },
+        { nick: '활발한 사자', item: '헬스장 3회 양도', last: '3회 그대로 가져가시면 5천원 빼드릴게요', time: '1시간 전', icon: 'ph ph-cat',
+          msgs: [['me', '안녕하세요! 헬스장 이용권 보고 연락드렸습니다'], ['them', '안녕하세요~'], ['me', '어느 지점인가요? 서초역 근처인가요?'], ['them', '네, 서초역 3번 출구에서 도보 5분입니다.'], ['me', '유효기간은 언제까지인가요?'], ['them', '올해 말까지라 여유 있습니다.'], ['me', '양도 절차가 복잡하진 않나요?'], ['them', '프런트에서 이름 변경만 하면 끝입니다. 5분도 안 걸려요.'], ['me', '네고 가능할까요? 2회분 가격이면 바로 가겠습니다.'], ['them', '음… 3회 그대로 가져가시면 5천원 빼드릴게요'], ['me', '고민해보고 다시 연락드리겠습니다!'], ['them', '네~ 편하게 연락 주세요!']] },
+        { nick: '조용한 돌고래', item: '에어팟 미개봉 새상품', last: '물건은 안전한 곳에 보관 중입니다.', time: '3시간 전', icon: 'ph ph-fish',
+          msgs: [['me', '안녕하세요, 미개봉 새상품 맞나요?'], ['them', '네, 포장 비닐 그대로입니다.'], ['me', '구매 시기가 언제인가요?'], ['them', '지난달에 선물로 받았습니다.'], ['me', '정품 등록 여부 확인 가능할까요?'], ['them', '등록 안 되어 있고 영수증도 지참 가능합니다.'], ['me', '가격이 시세보다 조금 높은 것 같은데 네고 가능한가요?'], ['them', '미개봉이라 크게는 어렵고 5천원까지는 가능합니다.'], ['me', '알겠습니다. 직거래 희망하는데 감일동 쪽 어디서 보면 될까요?'], ['them', '감일동 행정복지센터 앞이 편합니다.'], ['me', '네, 이번 주 토요일 오후 어떠세요?'], ['them', '좋습니다. 물건은 안전한 곳에 보관 중입니다.']] },
+        { nick: '느긋한 수달', item: '[아이패드/중고] 상태 좋아요', last: '혜화역 2번 출구 앞 어떠세요?', time: '어제', icon: 'ph ph-paw-print',
+          msgs: [['me', '안녕하세요'], ['them', '안녕하세요!'], ['me', '사용을 거의 안 하셨다고 적혀있는데 그럼 배터리는 어떤 상태인가요?'], ['me', '그리고 혹시 언제 구입하셨나요?'], ['them', '배터리 성능 100%에 풀사이클이라고 합니다! 다른 기능들도 100% 상태라고 해요'], ['them', '구입은 작년 봄에 했습니다'], ['me', '기스나 흠집은 정말 없나요? 사진으로는 잘 안 보여서요'], ['them', '네, 액정은 거의 거울 수준이고 뒷면도 커버 벗겨서 확인했는데 흠집 없습니다'], ['me', '박스랑 충전기도 포함인가요?'], ['them', '박스, 사용설명서 그대로 드리고 충전기는 미사용입니다'], ['me', '펜슬은 따로 없나요?'], ['them', '펜슬은 사용 안 해서 없습니다'], ['me', '확인 감사합니다. 직거래는 어디가 편하세요?'], ['them', '혜화역 2번 출구 앞 어떠세요?'], ['me', '좋습니다. 토요일 2시에 뵙겠습니다!']] },
+        { nick: '신중한 부엉이', item: '캠핑 랜턴 2회 사용', last: '사진 추가로 보내드렸습니다. 확인 부탁드립니다.', time: '2일 전', icon: 'ph ph-moon',
+          msgs: [['me', '안녕하세요, 랜턴 상태 사진 좀 더 볼 수 있을까요?'], ['them', '사진 추가로 보내드렸습니다. 확인 부탁드립니다.'], ['me', '확인했습니다. 밝기 조절은 잘 되나요?'], ['them', '네, 다이얼 조절 모두 정상입니다.'], ['me', '배터리는 충전식인가요, 건전지인가요?'], ['them', 'USB-C 충전식이고 완충 시 20시간 갑니다.'], ['me', '방수도 되나요? 우중 캠핑이 잦아서요'], ['them', 'IPX4라 빗방울 정도는 문제 없습니다.'], ['me', '박스랑 충전 케이블 포함이죠?'], ['them', '네, 구성품 전부 포함입니다.'], ['me', '좋네요. 주말에 만석동에서 뵐 수 있을까요?'], ['them', '토요일 오전이면 가능합니다.']] }
+      ]).map(d => ({ ...d, open: () => this.setState({ appView: 'chat', chatDm: d }) })),
+      appChat: st.appView === 'chat',
+      chatNick: st.chatDm ? st.chatDm.nick : '',
+      chatItem: st.chatDm ? st.chatDm.item : '',
+      chatIcon: st.chatDm ? st.chatDm.icon : 'ph ph-user',
+      chatGoItem: () => {
+        const r = st.chatDm && this.rawItems().find(x => x[0] === st.chatDm.item);
+        if (r) {
+          const [title, due, region, likes, dm, nick, slotN, price] = r;
+          this.setState({ appView: 'detail', detailItem: { title, due, region, likes, dm, nick, price, slotId: 'deungdae-item-' + slotN }, detailPhoto: 0 });
+        }
+      },
+      chatInputRef: (this._chatRef = this._chatRef || React.createRef()),
+      chatOnInput: (e) => this.setState({ chatDraft: e.target.value }),
+      chatOnFile: (e) => { const f = e.target.files && e.target.files[0]; if (f) this.setState({ chatFile: f.name }); e.target.value = ''; },
+      chatFileName: st.chatFile || null,
+      chatFileClear: () => this.setState({ chatFile: null }),
+      chatSendBg: ((st.chatDraft || '').trim() || st.chatFile) ? '#FF8A00' : '#d8d8dd',
+      chatSendCursor: ((st.chatDraft || '').trim() || st.chatFile) ? 'pointer' : 'default',
+      chatSend: () => {
+        const txt = (this.state.chatDraft || '').trim(), f = this.state.chatFile, dm = this.state.chatDm;
+        if ((!txt && !f) || !dm) return;
+        const mine = [];
+        if (f) mine.push(['me', '📎 ' + f]);
+        if (txt) mine.push(['me', txt]);
+        const push = (msgs) => this.setState(s => {
+          const ex = { ...(s.chatExtra || {}) };
+          ex[dm.item] = [...(ex[dm.item] || []), ...msgs];
+          return { chatExtra: ex };
+        });
+        push(mine);
+        this.setState({ chatDraft: '', chatFile: null });
+        if (this._chatRef && this._chatRef.current) this._chatRef.current.value = '';
+        setTimeout(() => push([['them', '감사합니다! 보내주신 내용 확인하고 곧 연락드릴게요☺️']]), 700);
+      },
+      chatMsgs: st.chatDm ? [...st.chatDm.msgs, ...((st.chatExtra || {})[st.chatDm.item] || [])].map(([who, text]) => ({
+        text,
+        justify: who === 'me' ? 'flex-end' : 'flex-start',
+        bg: who === 'me' ? '#FF8A00' : '#ffffff',
+        color: who === 'me' ? '#ffffff' : '#2f2f34'
+      })) : [],
       goHome: () => this.goPage('home'),
       menuOpen: !!st.menuOpen,
       toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
